@@ -1,3 +1,6 @@
+/* TODO */
+/* Make item boxes also change based on size */
+
 body {
     background-color: #15171C;
 }
@@ -6,10 +9,10 @@ body {
     /* text */
     color: #ffffff;
     font-family: sans-serif;
-    font-size: 8vw;
+    font-size: 6vw;
     /* position */
     text-align: center;
-    margin-top: 10%;
+    margin-top: 5%;
 }
 
 #main {
