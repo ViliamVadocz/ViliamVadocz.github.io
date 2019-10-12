@@ -27,9 +27,9 @@ body {
     font-family: sans-serif;
     background-color: #3A3B42;
     /* pos and size */
-    width: 160pt;
+    width: 180pt;
     height: 160pt;
-    margin: 16pt;
+    margin: 20pt;
     /* flex */
     flex: none;
 }
@@ -43,7 +43,7 @@ body {
     color: #26BCAE;
     font-size: 24pt;
     /* position */
-    text-align: start;
+    text-align: left;
     margin: 10pt;
 }
 
@@ -52,6 +52,6 @@ body {
     color: #ffffff;
     font-size: 12pt;
     /* position */
-    text-align: end;
+    text-align: right;
     margin: 10pt;
 }
