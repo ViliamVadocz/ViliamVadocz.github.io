@@ -5,17 +5,14 @@ body {
     background-color: #15171C;
 }
 
-#top {
-    /* text */
+h1 {
     color: #ffffff;
     font-family: sans-serif;
-    font-size: 6vw;
-    /* position */
     text-align: center;
-    margin-top: 5%;
 }
 
 #main {
+    margin: 30pt;
     /* flex */
     display: flex;
     flex-flow: row wrap;
@@ -25,36 +22,75 @@ body {
 }
 
 .item {
-    /* text */
     text-decoration: none;
-    font-family: sans-serif;
     background-color: #3A3B42;
-    /* pos and size */
-    width: 180pt;
-    height: 160pt;
-    margin: 20pt;
-    /* flex */
     flex: none;
+    position: relative;
 }
 
 .item:hover {
-    background-color: #46474e;
+    background-color: #4f5057;
 }
 
 .item_name {
-    /* text */
+    font-family: sans-serif;
     color: #26BCAE;
-    font-size: 24pt;
-    /* position */
     text-align: left;
-    margin: 10pt;
 }
 
 .item_description {
-    /* text */
+    font-family: sans-serif;
+    font-style: italic;
     color: #ffffff;
-    font-size: 12pt;
-    /* position */
     text-align: right;
-    margin: 10pt;
+    position: absolute;
+    bottom: 6pt;
+    right: 0;
+}
+
+/* Phones */
+@media only screen and (min-width: 300px) {
+    h1 {
+        font-size: 10vw;
+    }
+
+    .item {
+        width: 240pt;
+        height: 120pt;
+        margin: 10pt;
+        position: relative;
+    }
+
+    .item_name {
+        margin: 10pt;
+        font-size: 24pt;
+    }
+
+    .item_description {
+        margin: 10pt;
+        font-size: 12pt;
+    }
+}
+
+/* Monitors */
+@media only screen and (min-width: 800px) {
+    h1 {
+        font-size: 60pt;
+    }
+
+    .item {
+        width: 220pt;
+        height: 140pt;
+        margin: 20pt;
+    }
+
+    .item_name {
+        margin: 16pt;
+        font-size: 28pt;
+    }
+
+    .item_description {
+        margin: 10pt;
+        font-size: 12pt;
+    }
 }
