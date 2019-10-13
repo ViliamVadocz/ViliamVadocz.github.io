@@ -24,9 +24,16 @@
         
     <div id="main">
 
-        <!-- Clickable items with headings and descriptions -->
+        <script>
+            num_problems = 1
+            // Random problem for the Fun Problems button.     
+            function randomProblem() {
+                var i = parseInt(Math.random() * num_problems);
+                location.href = "problems/" + i + ".html";
+            }
+        </script>
 
-        <a href="#" class="item">
+        <a href="#" onclick="randomProblem();" class="item">
             <h2 class="item_name">
                 Fun Problems
             </h2>
@@ -54,7 +61,7 @@
             </p>
         </a>
 
-        <a href="#" class="item">
+        <a href="eludo/index.html" class="item">
             <h2 class="item_name">
                 Eludo
             </h2>
