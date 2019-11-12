@@ -1,0 +1,80 @@
+<!-- TODO: -->
+<!-- Add other pages and link to them -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel='icon' href='favicon.ico' type='image/x-icon'/ >
+
+    <title>Viliam Vadocz</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+    
+    <header>
+        <h1>Viliam Vadocz</h1>
+        <h2>There's beauty in simplicity.</h2>
+    </header>
+        
+    <main>
+        <script>
+            num_problems = 1
+            // Random problem for the Fun Problems button.     
+            function randomProblem() {
+                var i = parseInt(Math.random() * num_problems);
+                location.href = "problems/" + i + ".html";
+            }
+        </script>
+
+        <a href="#" onclick="randomProblem();" class="item">
+            <h3 class="item_name">
+                Fun Problems
+            </h3>
+            <p class="item_description">
+                Various small problems to get you thinking. <br><br>
+                Includes worked answers.
+            </p>
+        </a>
+        
+        <a href="#" class="item">
+            <h3 class="item_name">
+                Tools
+            </h3>
+            <p class="item_description">
+                Automating a problem away is the neatest solution.
+            </p>
+        </a>
+            
+        <a href="#" class="item">
+            <h3 class="item_name">
+                RLBot Notes
+            </h3>
+            <p class="item_description">
+                Custom bots for Rocket League, notes about the game's physics, and a tutorial for how to setup a Hivemind!
+            </p>
+        </a>
+
+        <a href="eludo/index.html" class="item">
+            <h3 class="item_name">
+                Eludo
+            </h3>
+            <p class="item_description">
+                An arcade-style about dodging missiles in space! <br><br>
+                Can you unlock all the spaceships?
+            </p>
+        </a>
+
+    </main>
+
+</body>
+
+</html>
