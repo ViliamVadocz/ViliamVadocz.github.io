@@ -1,0 +1,605 @@
+@import url('https://fonts.googleapis.com/css?family=Didact+Gothic');
+@import url('https://fonts.googleapis.com/css?family=IM+Fell+Great+Primer:400i&display=swap');
+
+/* Default viewport is for phones */
+
+/* Separator on top for large screens */
+#nav-carousel-separator {
+    display: none;
+    height: 52px;
+}
+
+/* Minimum height for carousel */
+.carousel-item > img {
+    overflow: hidden;
+    min-height: 300px;
+    min-width: 400px;
+    width: 100%;
+}
+
+/* Extra bit under the image for text */
+.carousel-caption {
+    background-color: #a60000;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    left: auto;
+    right: auto;
+    margin: 0;
+    padding: 1vw;
+    height: 40vw;
+    display: block;
+}
+
+/* Horizontal line */
+.carousel-caption > hr {
+    height: 1px;
+    border: 0;
+    margin: 0;
+    background-color: #ffffff;
+}
+
+/* Slide title text */
+.slide-title {
+    color: #ffffff;
+    font-family: 'Century Gothic', 'Futura', 'Didact Gothic', san-serif;  /* TODO Font needs to be worked out */
+    text-transform: uppercase;
+    text-align: center;
+    margin: 1vw;
+    font-size: 7vw;
+}
+
+/* Slide description text */
+.slide-text {
+    color: #ffffff;
+    font-family: 'IM Fell Great Primer', serif; /* TODO Font needs to be worked out */
+    text-align: center;
+    margin: 1vw;
+    font-size: 4vw;
+}
+
+/* Left arrow */
+.carousel-control-prev {
+    width: 30vw;
+}
+
+.carousel-control-prev-icon {
+    width: 7vw;
+    height: 7vw;
+}
+
+/* Right arrow */
+.carousel-control-next {
+    width: 30vw;
+}
+
+.carousel-control-next-icon {
+    width: 7vw;
+    height: 7vw;
+}
+
+/* Bar indicators on the bottom */
+.carousel-indicators {
+    bottom: 1vw;
+}
+
+.carousel-indicators > li {
+    width: 10vw;
+    height: 1.2vw;
+}
+
+/* Tablet size */
+@media screen and (min-width: 670px) {
+    /* Separator appears on larger screens */
+    #nav-carousel-separator {
+        display: block;
+    }
+
+    /* Minimum height for carousel */
+    .carousel-item > img {
+        overflow: hidden;
+        min-height: 300px;
+        min-width: 1000px;
+        width: 100%;
+    }
+
+    /* Caption disappears on larger screens */
+    .carousel-caption {
+        padding: 1vw;
+        height: 16vw;
+        display: none;
+    }
+
+    /* Bar indicators on the bottom */
+    .carousel-indicators {
+        bottom: 1vw;
+    }
+    
+    .carousel-indicators > li {
+        width: 3vw;
+        height: 0.4vw;
+    }
+
+    /* Left arrow */
+    .carousel-control-prev {
+        width: 10vw;
+    }
+
+    .carousel-control-prev-icon {
+        width: 3vw;
+        height: 3vw;
+    }
+
+    /* Right arrow */
+    .carousel-control-next {
+        width: 10vw;
+    }
+
+    .carousel-control-next-icon {
+        width: 3vw;
+        height: 3vw;
+    }
+
+    /* Slide title text */
+    .slide-title {
+        margin: 1vw;
+        font-size: 2vw;
+    }
+
+    /* Slide description text */
+    .slide-text {
+        margin: 1vw;
+        font-size: 1.5vw;
+    }
+}
+
+
+/* Bigger screen */
+/* @media only screen and (min-width: 1100px) {
+    
+} */
+@import url('https://fonts.googleapis.com/css?family=Didact+Gothic');
+
+/* In general, we are using vw (view-width) units = browser's content window width */
+/* vw units will scale with the content window -> responsive website */
+
+html {
+    font-family: 'Times New Roman', Times, serif !important;
+}
+
+body {
+    font-family: 'Times New Roman', Times, serif !important;
+    padding: 0;
+    margin: 0;
+}
+
+/* Mobile viewport first, serves as a foundation that can be expanded using queries */
+
+/* Nav-Desk (Navigation-Desktop) */
+.nav-desk {
+    display: block;
+}
+
+.nav-desk > ul {
+    display: none;
+    margin: auto;
+    width: 100vw;
+    list-style-type: none;
+    text-align: center;
+    position: fixed;
+    background-color: #a60000;
+    z-index: 1;
+    padding: 8vw;
+    /* Prevents ul items being shifted to the right */
+    padding-left: 0;
+}
+
+.nav-desk li {
+    padding: 2.3vw;
+    /*padding-bottom: 1vw;*/
+    text-decoration: none;
+    color: white;
+    font-family: 'Century Gothic', 'Futura', 'Didact Gothic', san-serif;
+    font-size: 4.5vw;
+    z-index: 1;
+}
+
+.nav-desk .title {
+    padding: 4vw;
+}
+
+.nav-desk li:last-child {
+    margin-bottom: 0;
+}
+
+.nav-desk li:hover {
+    background-color: #c40000;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+/* Nav-Phone */
+div.nav-phone.lang {
+    width: 10vw;
+}
+
+div.nav-phone.lang > div {
+    margin: auto;
+}
+
+.nav-phone .logo > img {
+    width: 8vw;
+    height: 8vw;
+    margin: auto;
+    padding: 1vw;
+    box-sizing: content-box;
+}
+
+.nav-phone .logo {
+    width: auto;
+    margin-left: 2vw;
+}
+
+.nav-phone .title {
+    width: auto;
+    margin: auto;
+    margin-left: 0;
+    padding-left: 0;
+    font-size: 6.3vw;
+    text-transform: uppercase;
+}
+
+.nav-phone {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.nav-phone > .left {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    /* Z-index controls what appears above what. Lowest value is in the back. */
+    z-index: 1;
+    list-style-type: none;
+    width: 100%;
+}
+
+.nav-phone > .right {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    height: 100%;
+    z-index: 1;
+    /* Removed default list bullet points */
+    list-style-type: none;
+}
+
+.nav-phone .language-dropdown {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-phone .serach-drop .dropdown {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.nav-phone .language-dropdown-content {
+    position: absolute;
+    display: none;
+    top: 10vw;
+    z-index: 1;
+    height: 10vw;
+}
+
+.nav-phone .language-dropdown-content > li {
+    background-color: unset;
+}
+
+.nav-phone .lang {
+    height: 100%;
+}
+
+.nav-phone > img {
+    height: 100%;
+}
+
+.nav-phone .search-input {
+    width: 0vw;
+    height: 7.65vw;
+    display: none;
+    border: 0.2vw solid #cccccc;
+    background: #eeeeee;
+    padding: 1vw;
+    font-size: 3.5vw;
+    position: absolute;
+    z-index: 1;
+    /* Opacity controls transparency */
+    opacity: 0;
+}
+
+.nav-phone .search-input:focus {
+    /* !important is a special ccs attribute that overrides any styles that could clash with it */
+    opacity: 1 !important;
+}
+
+/* Pre-made styling classes */
+.light-gray {
+    background-color: #e4e4e4 !important;
+}
+
+.darker-gray {
+    background-color: #cccccc ;
+}
+
+.hidden {
+    visibility: hidden ;
+}
+
+.no-display {
+    display: none !important;
+}
+
+.red-wine {
+    background: #a60000 !important;
+}
+
+div.square {
+    display: flex;
+    width: 10vw;
+    text-align: center;
+}
+
+.blur {
+    filter: blur(4px) !important;
+}
+
+/* Styling elements using ID */
+#logo-container {
+    width: 100%;
+}
+
+#title {
+    margin: auto;
+    color: #a60000;
+    font-weight: bold;
+    letter-spacing: -0.18vw;
+    transform: scale(1, 1.5);
+    cursor: default;
+}
+
+#nav-btn {
+    background-color: #a60000;
+    width: 10vw;
+}
+
+#search {
+    background-color: #cccccc;
+    width: 10vw;
+}
+
+#search-img {
+    width: 7vw;
+    height: 7vw;
+}
+
+#nav-bar {
+    height: 10vw;
+    width: 100%;
+}
+
+#menu-img, #search-img {
+    height: 7vw;
+    margin: auto;
+}
+
+/* Logo + title CSS */
+.logo-open-nav {
+    margin-left: 3vw !important;
+}
+
+.logo-img-open-nav {
+    margin-bottom: 0.2vw !important;
+    padding-bottom: 0.5vw !important;
+}
+
+.title-open-nav {
+    color: ghostwhite !important;
+}
+
+.title-cont-open-nav {
+    margin-bottom: 0.5vw !important;
+    padding-bottom: 0.5vw !important;
+}
+
+/* The rest */
+.content {
+    z-index: 0;
+    padding-top: 2px !important;
+    text-align: center;
+}
+
+.lang-text {
+    font-family: 'Century Gothic', 'Futura', 'Didact Gothic', san-serif;
+    font-weight: 500;
+    font-size: 5.6vw;
+    position: relative;
+    margin: auto;
+    cursor: default;
+}
+
+.nav-elem > div {
+    margin: auto;
+    text-transform: uppercase;
+}
+
+.active-nav-btn {
+    background-color: #c40000 !important;
+    transition: 0.5s ease;
+}
+
+/* Styles management based on screen width */
+
+/* Tablet style */
+/* Why 670? Trial and error - testing values from 540 to 800 (Common phone and tablet widths) */
+@media screen and (min-width: 670px) {
+
+    div.language.select-btn:hover, div.nav-phone.light-gray.lang.lang-text{
+        cursor: pointer;
+    }
+
+    .content{
+        padding: 0.5em;
+    }
+
+    #nav-bar{
+        max-height: calc(670px*0.1);
+        max-width: 100vw;
+    }
+
+    div.right{
+        height: 52px !important;
+        margin: auto;
+        margin-bottom: 0;
+        padding-right: 0.5em;
+    }
+
+    div.left{
+        padding-left: 0.5em;
+    }
+
+    div.nav-phone.search-drop.dropdown.square{
+        margin: auto;
+        margin-bottom: 0;
+    }
+
+    div.square {
+        width: calc(520px*0.1) !important;
+        height: 52px !important;
+    }
+
+    div.nav-phone.lang{
+        width: calc(520px*0.1);
+        height: 52px !important;
+    }
+
+    .lang-text{
+        font-size: calc(520px*0.056);
+    }
+
+    #menu-img, #search-img{
+        height: calc(520px*0.07) !important;
+        width: calc(520px*0.07) !important;
+    }
+
+    .nav-phone .logo > img{
+        width: calc(670px*0.08);
+        height: calc(670px*0.08);
+        padding: calc(670px*0.01);
+        padding-bottom: 0;
+        padding-top: 0;
+    }
+
+    .nav-phone .title{
+        font-size: calc(670px*0.063);
+        margin-left: 0 !important;
+    }
+
+    .nav-phone .language-dropdown-content{
+        top: calc(520px*0.1);
+        height: calc(520px*0.1);
+    }
+
+    .nav-phone .search-input{
+        height: calc(520px*0.0755);
+        font-size: calc(520px*0.035);
+        padding: calc(520px*0.01);
+        padding-top: 0;
+        padding-bottom: 0; 
+        border: 0.5px solid #dddddd;
+        height: 52px;
+    }
+
+    input.search-input{
+        width: calc(520px*0.4);
+        max-height: calc(520px*0.1);
+    }
+
+    .nav-phone .logo{
+        margin: auto;
+        margin-right: 0 !important;
+    }
+
+    .nav-desk li{
+        padding: calc(520px*0.018);
+        font-size: calc(420px*0.045);
+    }
+
+    #language:hover {
+        background-color: #e7e7e7;
+        cursor: pointer;
+    }
+
+    .nav-desk > ul {
+        display: none;
+        margin: auto;
+        width: 240px;
+        padding: 30px;
+        padding-right: 8px;
+        padding-left: 8px;
+        right: 0.5em;
+        height: 100vh;
+    }
+
+    .nav-desk li:hover {
+        box-shadow: 0px 0px 33px -14px rgba(255,255,255,0.74);
+        transform: scale(1.03);
+        background-color: #c60000;
+        transition: linear 0.2s;
+    }
+
+    .nav-elem {
+        display: flex;
+        justify-content: center;
+    }
+    
+    li:last-child {
+        border-right: none !important;
+    }
+
+    #nav-btn:hover{
+        cursor: pointer;
+        background-color: #c40000;
+        transition: ease 0.7s;
+    }
+
+    #search:hover {
+        background-color: #e9e9e9;
+        cursor: pointer;
+        transition: ease 0.7s;
+    }
+}
+
+/* Bigger screens */
+@media only screen and (min-width: 1100px) {
+    .nav-desk li {
+        font-size: calc(480px*0.045);
+        padding: calc(520px*0.0223);
+    }
+
+    .nav-desk > ul {
+        width: 308px;
+        padding: 14px;
+        padding-right: 0;
+        padding-left: 0;
+        height: 100vh;
+    }
+
+    .nav-elem > div {
+        transform: translateY(0%);
+    }
+}

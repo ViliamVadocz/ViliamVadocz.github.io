@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<!-- This indention is totally legal and we are 100% certain about this -->
+<html>
+
+<head>
+    <!-- Tells browser what character set we want. Default does not include SK characters -->
+    <meta charset="utf-8">
+    <!-- Sets scale and width so our website displays properly on all devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="all">
+    <meta name="description" content="GALILEO SCHOOL">
+    <!-- Tab displays the custom text below instead of the file name -->
+    <title>GALILEO - súkromná základná anglická jazyková škola</title>
+    <link rel="shortcut icon" href="../../favicon.ico" type="image/vnd.microsoft.icon">
+    <link rel="icon" href="../../favicon.ico" type="image/vnd.microsoft.icon">
+    <meta name="copyright" content="© 2019, GALILEO SCHOOL, s.r.o.">
+
+    <!-- Style -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../css/style.css">
+
+    <!-- Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="../../js/nav_jquery.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!-- Header -->
+<!-- The header usually contains the logo and a navigation bar -->
+<header>
+    <!-- Navigation bar -->
+    <nav>
+        <!-- Navigation for smaller devices -->
+        <div id="nav-bar" class="nav-phone">
+            <!-- Items which should be on the left -->
+            <div class="left">
+                <!-- Search button -->
+                <div class="nav-phone search-drop dropdown square">
+                    <div id="search" class="nav-phone search">
+                        <img id="search-img" src="../../images/icons/search.png">
+                    </div>
+                    <div class="nav-phone search-dropdown-content">
+                        <input class="nav-phone search-input" type="text" placeholder="Search.." name="search">
+                    </div>
+                </div>
+                <!-- School logo -->
+                <div id="logo-container" class="nav-phone school-logo-container">
+                    <li class="nav-phone logo">
+                        <img id="logo" src="../../images/logo.jpg">
+                    </li>
+                    <li class="nav-phone title">
+                        <div id="title">Galileo School</div>
+                    </li>
+                </div>
+            </div>
+            <!-- Items which should be on the right -->
+            <div class="right">
+
+                <!-- Language selection dropdown -->
+<div id="menu-btn-img" class="nav-phone language-dropdown dropdown square">
+    <div id="langBtn" class="nav-phone lang darker-gray">
+        <div class="lang-text">SK</div>
+    </div>
+    <div id="lang-sk" class="nav-phone language-dropdown-content dropdown-content">
+        <div onclick="location.href='../en/index.html'" class="nav-phone light-gray lang lang-text">
+            <div class="language select-btn" style="width: auto;">EN</div>
+        </div>
+    </div>
+</div>
+                
+                <!-- Button for opening navigation bar dropdown -->
+                <div id="nav-btn" class="nav-phone toggle square">
+                    <img id="menu-img" src="../../images/icons/menu.png">
+                </div>
+            </div>
+        </div>
+
+        <!-- The actual navigation menu -->
+<div id="nav-desk" class="nav-desk">
+    <!-- We prefer ul (unordered list) for the menu structure and flexibility -->
+    <ul id="navigation" class="navbar">
+        <!-- Each of these li (list item) elements represents a button in our menu -->
+        <li onclick="location.href='#'" class="nav-elem">
+            <div>Hlavná Stránka</div>
+        </li>
+        <li onclick="location.href='#'" class="nav-elem">
+            <div>Profil Školy</div>
+        </li>
+        <li onclick="location.href='#'" class="nav-elem">
+            <div>Prijímacie Pohovory</div>
+        </li>
+        <li onclick="location.href='#'" class="nav-elem">
+            <div>Žiacka Knižka</div>
+        </li>
+        <li onclick="location.href='#'" class="nav-elem">
+            <div>Stránky Študentov</div>
+        </li>
+        <li onclick="location.href='#'" class="nav-elem">
+            <div>Kontakty</div>
+        </li>
+        <!--
+                Template:
+            <li onclick="location.href='#[ENTER LINK HERE]'" class="nav-elem">
+                <div>[ENTER ITEM HERE]</div>
+            </li>
+            -->
+    </ul>
+</div>
+        
+    </nav>
+</header>
+
+    <div class="content">
+        <div class="red-wine" id="nav-carousel-separator"></div>
+        <div id="carousel" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#carousel" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel" data-slide-to="1"></li>
+        <li data-target="#carousel" data-slide-to="2"></li>
+        <li data-target="#carousel" data-slide-to="3"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+    <img class="d-block w-100" src="../../images/carousel/carousel1.jpg" alt="Prvý Obrázok">
+    <div class="carousel-caption">
+        <p class="slide-title">Prvý Obrázok</p>
+        <hr>
+        <p class="slide-text">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        </p>
+    </div>
+</div>
+<div class="carousel-item">
+    <img class="d-block w-100" src="../../images/carousel/carousel2.jpg" alt="Druhý Obrázok">
+    <div class="carousel-caption">
+        <p class="slide-title">Druhý Obrázok</p>
+        <hr>
+        <p class="slide-text">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        </p>
+    </div>
+</div>
+<div class="carousel-item">
+    <img class="d-block w-100" src="../../images/carousel/carousel3.jpg" alt="Tretí Obrázok">
+    <div class="carousel-caption">
+        <p class="slide-title">Tretí Obrázok</p>
+        <hr>
+        <p class="slide-text">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        </p>
+    </div>
+</div>
+<div class="carousel-item">
+    <img class="d-block w-100" src="../../images/carousel/carousel4.jpg" alt="Štvrtý Obrázok">
+    <div class="carousel-caption">
+        <p class="slide-title">Štvrtý Obrázok</p>
+        <hr>
+        <p class="slide-text">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        </p>
+    </div>
+</div>
+    </div>
+    <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+    </div>
+
+    <!-- Scripts at the end to make sure everything else is already loaded . -->
+    <script src="../../js/navigation.js"></script>
+    <script src="../../js/carousel.js"></script>
+</body>
+
+</html>
