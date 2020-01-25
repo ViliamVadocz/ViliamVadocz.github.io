@@ -1,6 +1,70 @@
+/* imports have to be on top of the css file, this file is put on top (because "_" comes before any letter) */
 @import url('https://fonts.googleapis.com/css?family=Didact+Gothic');
-@import url('https://fonts.googleapis.com/css?family=IM+Fell+Great+Primer:400i&display=swap');
 
+.fill-area{
+    width: 100%;
+    height: 100%;
+}
+
+.wine-red{
+    background-color: #a60000 !important;
+    color: white !important;
+}
+
+.square-corners{
+    border-radius: 0 !important;
+}
+
+.card-footer{
+    padding: 0 !important;
+}
+
+.card {
+    border-radius: 0 !important;
+    border: none;
+    background-color: #a60000;
+    color: white;
+    margin-left: 3px !important;
+    margin-right: 0 !important;
+}
+
+.card-body{
+    font-style: italic;
+    /*color: rgb(189, 188, 188);*/
+    color: #dddddd;
+    font-size: calc(670px*0.03);
+}
+
+hr {
+    margin: 0 !important;
+    background-color: white !important;
+    color: white !important;
+    border: 1px solid white;
+}
+
+.card-title{
+    width: 100%;
+    text-transform: uppercase;
+    font-family: 'Century Gothic', 'Futura', 'Didact Gothic', san-serif !important;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+}
+
+.card-deck{
+    margin-top: 5px !important;
+    width: 100% !important;
+    margin: auto;
+}
+
+.card:first-child{
+    margin-left: 0 !important;
+}
+
+@media screen and (max-width: 670px){
+    .card{
+        margin-left: 0 !important;
+    }
+}
 /* Default viewport is for phones */
 
 /* Separator on top for large screens */
@@ -14,7 +78,6 @@
     overflow: hidden;
     min-height: 300px;
     min-width: 400px;
-    width: 100%;
 }
 
 /* Extra bit under the image for text */
@@ -52,7 +115,8 @@
 /* Slide description text */
 .slide-text {
     color: #ffffff;
-    font-family: 'IM Fell Great Primer', serif; /* TODO Font needs to be worked out */
+    font-family: 'Times New Roman', Times, serif; /* TODO Font needs to be worked out */
+    font-style: italic;
     text-align: center;
     margin: 1vw;
     font-size: 4vw;
@@ -60,7 +124,9 @@
 
 /* Left arrow */
 .carousel-control-prev {
-    width: 30vw;
+    width: 25vw;
+    height: 65%;
+    min-height: 300px;
 }
 
 .carousel-control-prev-icon {
@@ -70,7 +136,9 @@
 
 /* Right arrow */
 .carousel-control-next {
-    width: 30vw;
+    width: 25vw;
+    height: 65%;
+    min-height: 300px;
 }
 
 .carousel-control-next-icon {
@@ -85,7 +153,7 @@
 
 .carousel-indicators > li {
     width: 10vw;
-    height: 1.2vw;
+    height: 1vw;
 }
 
 /* Tablet size */
@@ -123,6 +191,8 @@
     /* Left arrow */
     .carousel-control-prev {
         width: 10vw;
+        height: 100%;
+        min-height: none;
     }
 
     .carousel-control-prev-icon {
@@ -133,6 +203,8 @@
     /* Right arrow */
     .carousel-control-next {
         width: 10vw;
+        height: 100%;
+        min-height: none;
     }
 
     .carousel-control-next-icon {
@@ -158,19 +230,22 @@
 /* @media only screen and (min-width: 1100px) {
     
 } */
-@import url('https://fonts.googleapis.com/css?family=Didact+Gothic');
-
 /* In general, we are using vw (view-width) units = browser's content window width */
 /* vw units will scale with the content window -> responsive website */
 
 html {
-    font-family: 'Times New Roman', Times, serif !important;
+    font-family: 'Times New Roman', Times, serif;
 }
 
 body {
-    font-family: 'Times New Roman', Times, serif !important;
+    font-family: 'Times New Roman', Times, serif;
     padding: 0;
     margin: 0;
+}
+
+/* Prevent user selecting / highlighting on navbar  */
+nav {
+    user-select: none;
 }
 
 /* Mobile viewport first, serves as a foundation that can be expanded using queries */
@@ -243,9 +318,8 @@ div.nav-phone.lang > div {
 .nav-phone .title {
     width: auto;
     margin: auto;
-    margin-left: 0;
-    padding-left: 0;
-    font-size: 6.3vw;
+    margin-left: 2vw;
+    font-size: 6vw;
     text-transform: uppercase;
 }
 
@@ -323,21 +397,20 @@ div.nav-phone.lang > div {
 }
 
 .nav-phone .search-input:focus {
-    /* !important is a special ccs attribute that overrides any styles that could clash with it */
-    opacity: 1 !important;
+    opacity: 1;
 }
 
 /* Pre-made styling classes */
 .light-gray {
-    background-color: #e4e4e4 !important;
+    background-color: #e4e4e4;
 }
 
 .darker-gray {
-    background-color: #cccccc ;
+    background-color: #cccccc;
 }
 
 .hidden {
-    visibility: hidden ;
+    visibility: hidden;
 }
 
 .no-display {
@@ -345,17 +418,16 @@ div.nav-phone.lang > div {
 }
 
 .red-wine {
-    background: #a60000 !important;
+    background: #a60000;
 }
 
 div.square {
-    display: flex;
     width: 10vw;
     text-align: center;
 }
 
 .blur {
-    filter: blur(4px) !important;
+    filter: blur(4px);
 }
 
 /* Styling elements using ID */
@@ -399,12 +471,12 @@ div.square {
 
 /* Logo + title CSS */
 .logo-open-nav {
-    margin-left: 3vw !important;
+    margin-left: 3vw;
 }
 
 .logo-img-open-nav {
-    margin-bottom: 0.2vw !important;
-    padding-bottom: 0.5vw !important;
+    margin-bottom: 0.2vw;
+    padding-bottom: 0.5vw;
 }
 
 .title-open-nav {
@@ -412,14 +484,14 @@ div.square {
 }
 
 .title-cont-open-nav {
-    margin-bottom: 0.5vw !important;
-    padding-bottom: 0.5vw !important;
+    margin-bottom: 0.5vw;
+    padding-bottom: 0.5vw;
 }
 
 /* The rest */
 .content {
     z-index: 0;
-    padding-top: 2px !important;
+    padding-top: 2px;
     text-align: center;
 }
 
@@ -438,7 +510,7 @@ div.square {
 }
 
 .active-nav-btn {
-    background-color: #c40000 !important;
+    background-color: #c40000;
     transition: 0.5s ease;
 }
 
@@ -446,14 +518,15 @@ div.square {
 
 /* Tablet style */
 /* Why 670? Trial and error - testing values from 540 to 800 (Common phone and tablet widths) */
+/* Warning: Any changes made to this "conditional" such as changing the min-width will have to be repeated in nav_jquery.js file in the function check_resize() */
 @media screen and (min-width: 670px) {
 
-    div.language.select-btn:hover, div.nav-phone.light-gray.lang.lang-text{
+    div.language-select-btn:hover, div.nav-phone.light-gray.lang.lang-text{
         cursor: pointer;
     }
 
     .content{
-        padding: 0.5em;
+        padding-top: 2px !important;
     }
 
     #nav-bar{
@@ -465,11 +538,6 @@ div.square {
         height: 52px !important;
         margin: auto;
         margin-bottom: 0;
-        padding-right: 0.5em;
-    }
-
-    div.left{
-        padding-left: 0.5em;
     }
 
     div.nav-phone.search-drop.dropdown.square{
@@ -479,12 +547,12 @@ div.square {
 
     div.square {
         width: calc(520px*0.1) !important;
-        height: 52px !important;
+        height: 52px;
     }
 
     div.nav-phone.lang{
         width: calc(520px*0.1);
-        height: 52px !important;
+        height: 52px;
     }
 
     .lang-text{
@@ -492,8 +560,8 @@ div.square {
     }
 
     #menu-img, #search-img{
-        height: calc(520px*0.07) !important;
-        width: calc(520px*0.07) !important;
+        height: calc(520px*0.07);
+        width: calc(520px*0.07);
     }
 
     .nav-phone .logo > img{
@@ -506,7 +574,7 @@ div.square {
 
     .nav-phone .title{
         font-size: calc(670px*0.063);
-        margin-left: 0 !important;
+        margin-left: 0;
     }
 
     .nav-phone .language-dropdown-content{
@@ -531,7 +599,7 @@ div.square {
 
     .nav-phone .logo{
         margin: auto;
-        margin-right: 0 !important;
+        margin-right: 0;
     }
 
     .nav-desk li{
@@ -551,7 +619,7 @@ div.square {
         padding: 30px;
         padding-right: 8px;
         padding-left: 8px;
-        right: 0.5em;
+        right: 0;
         height: 100vh;
     }
 
@@ -568,7 +636,7 @@ div.square {
     }
     
     li:last-child {
-        border-right: none !important;
+        border-right: none;
     }
 
     #nav-btn:hover{
@@ -602,4 +670,11 @@ div.square {
     .nav-elem > div {
         transform: translateY(0%);
     }
+}
+
+/* Counteract _reboot.scss */
+*,
+*::before,
+*::after {
+  box-sizing: unset;
 }

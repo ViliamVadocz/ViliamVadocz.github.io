@@ -1,6 +1,6 @@
 // Debug message to notify that the script has loaded.
 // To see it, find the console tab
-console.log("Navigation JavaScript has loaded!");
+// console.log("Navigation JavaScript has loaded!");
 
 // Getting the menu button (top-right corner) by ID.
 const menuBtn = document.getElementById("nav-btn");
@@ -66,7 +66,7 @@ function toggle_menu() {
  */
 function check_resize() {
     // If in desktop viewport (width needs to be the same as in nav_style.css):
-    if (window.innerWidth >= 670 && window.innerWidth < 1920 && document.querySelector(".content").classList.contains("blur") && document.querySelector(".left").classList.contains("red-wine")) {
+    if (window.innerWidth >= 670 && window.innerWidth <= 1920 && document.querySelector(".content").classList.contains("blur") && document.querySelector(".left").classList.contains("red-wine")) {
         resetPhoneMenu();
     }
     else if (window.innerWidth < 670 && window.innerWidth > 150 && document.querySelector(".content").classList.contains("blur") && !document.querySelector(".left").classList.contains("red-wine")) {

@@ -1,7 +1,8 @@
+// This file is responsible for human interaction with the navigation such as clicking the hamburger button and a menu pops-up
 // Executes functions as soon as the page is fully loaded.
 $(document).ready(function () {
-    var isDesktop = DesktopCheck();
-    var isOverflow = OverflowCheck();
+    let isDesktop = DesktopCheck();
+    let isOverflow = OverflowCheck();
 
     // This is how variable assignment is done in JavaScript.
     let langBtn = "#langBtn";
@@ -15,15 +16,14 @@ $(document).ready(function () {
     let logo = ".nav-phone .logo";
     let title = ".nav-phone .title";
 
-
+    // When resizing browser this function checks for desktop viewport and browser
+    //  overflow and makes decisions based on the returned values / data
     $(window).resize(function () {
         isDesktop = DesktopCheck();
         isOverflow = OverflowCheck();
-        if ($(window).width() == 670) {
-            if (searching) {
-                slideOut();
-                searching = false;
-            }
+        if (isDesktop && searching) {
+            slideOut();
+            searching = false;
         }
     });
 
@@ -33,10 +33,11 @@ $(document).ready(function () {
     });
 
     function openMenu(isDesktop) {
-        if (isDesktop)
+        if (isDesktop) {
             openDesktopMenu();
-        else
+        } else {
             openPhoneMenu();
+        }
     }
 
     function openDesktopMenu() {
@@ -133,11 +134,12 @@ $(document).ready(function () {
      * @param {Boolean} isDesktop
      */
     function slideIn(isDesktop, selector = searchInput) {
-        var width;
-        if (isDesktop)
-            width = "208px"; //calc(520px*0.4)
-        else
+        let width;
+        if (isDesktop) {
+            width = "208px";
+        } else {
             width = "40vw";
+        }
 
         if (width.length <= 0) {
             console.error("NullReferenceException: Object reference not set to an instance of an object.");
@@ -173,7 +175,7 @@ $(document).ready(function () {
     };
 
     function DesktopCheck() {
-        var width = $(window).width();
+        let width = $(window).width();
         if (width >= 670)
             return true;
         else
@@ -181,7 +183,7 @@ $(document).ready(function () {
     }
 
     function OverflowCheck() {
-        var overflow = document.querySelector("body").scrollHeight > $(window).innerHeight();
+        let overflow = document.querySelector("body").scrollHeight > $(window).innerHeight();
         return overflow;
     }
 });
