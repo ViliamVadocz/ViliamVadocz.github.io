@@ -319,7 +319,7 @@ div.nav-phone.lang > div {
     width: auto;
     margin: auto;
     margin-left: 2vw;
-    font-size: 6vw;
+    font-size: 5.9vw;
     text-transform: uppercase;
 }
 
@@ -676,5 +676,5 @@ div.square {
 *,
 *::before,
 *::after {
-  box-sizing: unset;
+  box-sizing: border-box;
 }
