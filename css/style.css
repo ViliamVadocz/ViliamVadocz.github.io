@@ -7,51 +7,52 @@
 }
 
 .wine-red{
-    background-color: #a60000 !important;
-    color: white !important;
+    background-color: #a60000;
+    color: white;
 }
 
 .square-corners{
-    border-radius: 0 !important;
+    border-radius: 0;
 }
 
 .card-footer{
-    padding: 0 !important;
+    padding: 0;
 }
 
 .card {
-    border-radius: 0 !important;
+    border-radius: 0;
     border: none;
     background-color: #a60000;
     color: white;
     margin-left: 3px !important;
     margin-right: 0 !important;
+    margin-bottom: 3px !important;
 }
 
 .card-body{
     font-style: italic;
-    /*color: rgb(189, 188, 188);*/
-    color: #dddddd;
-    font-size: calc(670px*0.03);
+    color: white;
+    font-size: 1.5vw;
 }
 
 hr {
-    margin: 0 !important;
-    background-color: white !important;
-    color: white !important;
+    margin: 0;
+    background-color: white;
+    color: white;
     border: 1px solid white;
 }
 
 .card-title{
     width: 100%;
     text-transform: uppercase;
-    font-family: 'Century Gothic', 'Futura', 'Didact Gothic', san-serif !important;
+    font-family: 'Century Gothic', 'Futura', 'Didact Gothic', san-serif;
+    font-size: 2vw;
     margin-top: .5rem;
     margin-bottom: .5rem;
 }
 
 .card-deck{
-    margin-top: 5px !important;
+    margin-top: 3px !important;
     width: 100% !important;
     margin: auto;
 }
@@ -60,12 +61,30 @@ hr {
     margin-left: 0 !important;
 }
 
+/* Mobile viewport */
 @media screen and (max-width: 670px){
-    .card{
+    .card {
         margin-left: 0 !important;
+    }
+
+    .card-deck {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-title {
+        font-size: 6vw;
+    }
+    
+    .card-body {
+        font-size: 4vw;
     }
 }
 /* Default viewport is for phones */
+
+#carousel {
+    margin-bottom: 3px;
+}
 
 /* Separator on top for large screens */
 #nav-carousel-separator {
@@ -76,8 +95,8 @@ hr {
 /* Minimum height for carousel */
 .carousel-item > img {
     overflow: hidden;
-    min-height: 300px;
-    min-width: 400px;
+    min-height: 150px;
+    min-width: 250px;
 }
 
 /* Extra bit under the image for text */
@@ -89,17 +108,10 @@ hr {
     left: auto;
     right: auto;
     margin: 0;
-    padding: 1vw;
-    height: 40vw;
+    padding: 0;
+    padding-top: 1vw;
+    height: 35vw;
     display: block;
-}
-
-/* Horizontal line */
-.carousel-caption > hr {
-    height: 1px;
-    border: 0;
-    margin: 0;
-    background-color: #ffffff;
 }
 
 /* Slide title text */
@@ -109,7 +121,7 @@ hr {
     text-transform: uppercase;
     text-align: center;
     margin: 1vw;
-    font-size: 7vw;
+    font-size: 6vw;
 }
 
 /* Slide description text */
@@ -118,15 +130,15 @@ hr {
     font-family: 'Times New Roman', Times, serif; /* TODO Font needs to be worked out */
     font-style: italic;
     text-align: center;
-    margin: 1vw;
+    padding: 1.25rem;
     font-size: 4vw;
 }
 
 /* Left arrow */
 .carousel-control-prev {
     width: 25vw;
-    height: 65%;
-    min-height: 300px;
+    height: 63%;
+    min-height: 250px;
 }
 
 .carousel-control-prev-icon {
@@ -137,8 +149,8 @@ hr {
 /* Right arrow */
 .carousel-control-next {
     width: 25vw;
-    height: 65%;
-    min-height: 300px;
+    height: 63%;
+    min-height: 250px;
 }
 
 .carousel-control-next-icon {
@@ -158,6 +170,11 @@ hr {
 
 /* Tablet size */
 @media screen and (min-width: 670px) {
+
+    #carousel {
+        margin-bottom: 0;
+    }
+
     /* Separator appears on larger screens */
     #nav-carousel-separator {
         display: block;
@@ -166,8 +183,8 @@ hr {
     /* Minimum height for carousel */
     .carousel-item > img {
         overflow: hidden;
-        min-height: 300px;
-        min-width: 1000px;
+        min-height: 210px;
+        min-width: 840px;
         width: 100%;
     }
 
@@ -192,7 +209,7 @@ hr {
     .carousel-control-prev {
         width: 10vw;
         height: 100%;
-        min-height: none;
+        min-height: 210px;
     }
 
     .carousel-control-prev-icon {
@@ -204,7 +221,7 @@ hr {
     .carousel-control-next {
         width: 10vw;
         height: 100%;
-        min-height: none;
+        min-height: 210px;
     }
 
     .carousel-control-next-icon {
@@ -224,12 +241,6 @@ hr {
         font-size: 1.5vw;
     }
 }
-
-
-/* Bigger screen */
-/* @media only screen and (min-width: 1100px) {
-    
-} */
 /* In general, we are using vw (view-width) units = browser's content window width */
 /* vw units will scale with the content window -> responsive website */
 
@@ -415,10 +426,6 @@ div.nav-phone.lang > div {
 
 .no-display {
     display: none !important;
-}
-
-.red-wine {
-    background: #a60000;
 }
 
 div.square {
