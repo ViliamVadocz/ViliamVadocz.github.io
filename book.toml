@@ -1,0 +1,6 @@
+[book]
+authors = ["Viliam Vadocz"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Will's Website"
