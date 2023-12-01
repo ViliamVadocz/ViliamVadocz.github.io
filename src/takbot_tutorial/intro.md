@@ -25,3 +25,7 @@ The goal of this tutorial is not to create the best bot.
 Rather, the goal is to get people playing around and experimenting with bot-making
 and just programming in general. For this, Python seems like the best choice
 because it is popular and easy to learn.
+
+## Other Resources
+
+The [Chess Programming Wiki](https://www.chessprogramming.org) is an excellent resource for creating engines that play board games (not just chess).
