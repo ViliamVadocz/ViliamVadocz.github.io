@@ -235,8 +235,15 @@ def road_piece(piece: Piece) -> bool:
 
 For the heuristic mentioned above, let's try counting how many
 road pieces are in the same row or column as some given square.
-This information doesn't change from between the different moves that we
-are ranking, so we can just do it once in the outer function `move_ordering`.
+For example, for the position below, I have looked at each empty square,
+and counted how many road pieces are in the same row or column.
+
+![An opening position where each empty square has a number counting how many road pieces are in the same row or column as that square](images/row_column_score.png)
+
+For this example, `f5` and `f1` would score highly, which is what we want since those placements build towards a road.
+
+The row and column information doesn't change from between the different moves that
+we are ranking, so we can just do it once in the outer function `move_ordering`.
 To keep our code modular, let's split the implementation into multiple functions
 that we can reuse for other heuristics.
 
