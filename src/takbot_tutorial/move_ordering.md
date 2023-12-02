@@ -85,8 +85,8 @@ def bot_move(game: Game):
 
 We will be adding a lot more to our bot, so to prepare for that, let's reorganize our code into modules.
 
-Make two new files `bot.py` and `cli.py`. Move all of the current code into `cly.py`, except for the `bot_move`
-function. Move `bot_move` into `bot.py`. To use `bot_move` from `cli.py` we need to import it:
+Make two new files `bot.py` and `cli.py`. Move all of the current code into `cli.py`, except for the `bot_move`
+function. Move `bot_move` into `bot.py`. To use `bot_move` from `cli.py` we need to import it like this:
 
 ```py
 from bot import bot_move
@@ -122,11 +122,11 @@ If you try that code above you'll see an error like
 That's because we are using `sorted` on a list of moves, but we haven't implemented
 anything to compare the moves.
 
-We can do this by defining another function that will score each move, and then we rank according to the scores.
+We can do this by defining another function that will score each move, and then we sort according to the scores.
 Let's define this function *inside* `move_ordering`, so that we have easy access to variables we will pre-compute for all moves.
 
 Then, we can use this new function as a key for `sorted`. We want higher scores to appear earlier in the list, so we should also tell
-`sorted` to reverse the order (by default it sort ascending, smallest to highest).
+`sorted` to reverse the order (by default it sorts ascending, smallest to highest).
 
 ```py
 def move_ordering(game: Game) -> list[Move]:
@@ -140,7 +140,7 @@ def move_ordering(game: Game) -> list[Move]:
 And now comes the fun part. What makes one move better than another?
 Why is some move good in one situation, but then the same move is bad in another?
 If you know the answers to those questions, you've just solved Tak!
-I don't, so instead I'll have to come up with some guesses based on my experience.
+I don't, so instead I will have to come up with some guesses based on my experience.
 
 To make any sort of threat, one needs to make placements. Maybe we can start by valuing
 placements above spreads. 
@@ -450,20 +450,20 @@ def move_ordering(game: Game) -> list[Move]:
     return sorted(moves, key=move_score, reverse=game.ply > 1)
 ```
 
-## One-move look-ahead
+## One-move Lookahead
 
 The bot plays... well, still very badly.
 It's better than random, but it has a lot of room for improvement.
-Let's move on from heuristics for now though, because we can also improve the bot in other ways.
+Let's move on from heuristics though, because we can also improve the bot in other ways.
 
 I think the best thing we can do for our bot right now would be adding search.
-I want to leave that for the next chapters though, so instead I suggest we add only a single move
-lookahead to take winning moves when we have them, and to prevent roads in 1 (when possible).
+I want to leave that for the next chapters, so instead I suggest we limit ourselves to a single move
+lookahead. That means taking winning moves when we have them, and to prevent roads in 1 (when possible).
 
-The ideas is that for each of our moves that we get out of `move_ordering`
+The idea is that for each of our moves that we get out of `move_ordering`
 we will try playing it on a "virtual" board to see if it wins. If yes, we can just play it.
-Otherwise, we consider all moves from our opponent, and do the same. If they have a winning move,
-we should not play the move we just tried.
+We can also check all of the opponent's moves from the position after our prospective move
+to see if they can make a road. If yes, we should avoid playing that move.
 
 Whether it's for us or for the opponent, we want to know if the current player can win.
 Let's implement a function to check that and give us the winning move.
@@ -498,7 +498,10 @@ def bot_move(game: Game):
     game.play(best_move)
 ```
 
-Avoiding a road in 1 is a bit more complicated, but not too much
+Avoiding a road in 1 is a bit more complicated, but not too much.
+The basic idea is that we try each move, and then if the game is not lost already,
+we check if they have a winning move. If they don't we can play this move and
+we break out of the loop.
 
 ```py
 def bot_move(game: Game):
@@ -524,14 +527,28 @@ def bot_move(game: Game):
 ```
 
 Try playing the bot now! It plays much better!
+
 It can still fall into Tinue easily, but I'll leave that as an exercise for the reader.
 
 Some things you can try implementing:
 - Blocking enemy roads (maybe using `row_score` and `col_score`)
 - Discourage flat-on-flat captures (Check whether the top piece of the spreading stack is a flat)
 - Encourage placing walls near stacks with captives
-- Avoid making negative fcd moves (Compute the fcd-difference of spreads)
+- Avoid making negative flat-count-difference ([FCD]) moves (Compute the FCD of spreads)
 - Reward strong shapes (citadels, staircases)
+
+Some ideas to think about before the next chapter:
+- When an opponent has a Tak threat, we need to prevent it.
+That means that for every move we want to play, we have to check that same move,
+and if is doesn't stop it, we can immediately reject our candidate move.
+If we are able to identify these "killer" moves, checking for them first would improve performance.
+Can you think of how we could implement that?
+- The bot is currently searching 2 plies ahead. That means we consider our current move, and our opponents response.
+How could you look 3 plies ahead? 4 plies? arbitrary `N` plies?
+- Do we really have to look at all moves? Are there some moves which are so bad that we should not even consider them?
+Could you figure out a way to identify such moves?
+- You have some ideas about how to recognize good moves. What about good board positions? What makes one Tak position
+better than another? Are there any ideas you can re-use from move ordering?
 
 You can find the final code for this chapter here: <https://github.com/ViliamVadocz/takbot-tutorial/tree/main/part_2>
 
@@ -544,5 +561,4 @@ You can find the final code for this chapter here: <https://github.com/ViliamVad
 [generator expressions]: https://docs.python.org/3.13/tutorial/classes.html#generator-expressions
 [Manhattan distance]: https://en.wikipedia.org/wiki/Taxicab_geometry
 [plies]: https://en.wikipedia.org/wiki/Ply_(game_theory)
-
-
+[FCD]: https://youtu.be/SHk5EBJpWOg
