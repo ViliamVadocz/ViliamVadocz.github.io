@@ -1,12 +1,14 @@
 # Takbot Tutorial
 
-Let's make a bot that plays Tak!
+Let's make an engine that plays Tak!
 
 The tutorial is organized into bite-sized chapters that build on each other.
-We will start with an implementation of the game and slowly build up.
-We will go from a random bot to a hopefully interesting bot that you can customize
-and extend as you wish. I would view this tutorial as just a jumping-off point
-to get you started on your bot-making journey.
+We will start by looking at an existing implementation of the game
+and we will make a small command line interface to get familiar with it.
+Then we build it to a hopefully-interesting bot that you can customize
+and extend as you wish. At the end of this tutorial you should be able
+to play with your very own bot on [playtak], and you should have the confidence
+to improve it on your own.
 
 ## Prerequisites
 
@@ -20,11 +22,15 @@ You will need to know:
 
 ## Python is a Plastic Fork
 
-Python is honestly a bad choice for a Tak bot because Python is horrendously slow.
-The goal of this tutorial is not to create the best bot.
-Rather, the goal is to get people playing around and experimenting with bot-making
-and just programming in general. For this, Python seems like the best choice
-because it is popular and easy to learn.
+We will be using Python for this tutorial because it is a popular
+programming langauge and easy to learn. Unfortunately, it can be quite slow,
+so once perfomance becomes a problem, consider switching to faster language.
+
+Many people in the Tak community made their bots in [Rust], so there
+are plenty of examples as well as libraries to help you out in case
+you choose to switch later.
+
+[Rust]: https://www.rust-lang.org/
 
 ## Other Resources
 

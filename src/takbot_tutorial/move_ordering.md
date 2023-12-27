@@ -137,10 +137,14 @@ def move_ordering(game: Game) -> list[Move]:
     return sorted(moves, key=move_score, reverse=True)
 ```
 
+## Heuristics
+
 And now comes the fun part. What makes one move better than another?
 Why is some move good in one situation, but then the same move is bad in another?
 If you know the answers to those questions, you've just solved Tak!
 I don't, so instead I will have to come up with some guesses based on my experience.
+
+### Placements over Spreads
 
 To make any sort of threat, one needs to make placements. Maybe we can start by valuing
 placements above spreads. 
@@ -188,6 +192,8 @@ def move_ordering(game: Game) -> list[Move]:
     return sorted(moves, key=move_score, reverse=True)
 ```
 
+### Flats > Capstones > Walls
+
 Let's prioritize placing flats over capstones, and capstones over walls:
 
 ```py
@@ -220,7 +226,9 @@ def move_ordering(game: Game) -> list[Move]:
 
 > Note that `move.piece` will return `None` if the move was a spread.
 
-We should also think about where it's good to place.
+### Making Roads
+
+We should also think about *where* it's good to place.
 I think it is good to place road pieces where it contributes to a road effort.
 Calculating which square benefits mosts roads is hard, but a decent heuristic is prioritizing squares
 that are in the same row or column as existing road pieces.
@@ -320,6 +328,8 @@ With that implemented, the bot now tries to build for a road, although it doesn'
 Maybe we can encourage placing the capstone next to opponent stacks so that the bot has the opportunity to capture onto them
 for a road in the future.
 
+### Capstone Next to Stacks
+
 For this, we will need to find out the neighboring stacks to any given square. We have to be careful about not accessing positions
 which do not exist on the board, but once that is taken care of, it's not difficult. We can make it a function for convenience.
 
@@ -384,6 +394,8 @@ def move_ordering(game: Game) -> list[Move]:
     return sorted(moves, key=move_score, reverse=True)
 ```
 
+### Central Placements
+
 Let's also add a bonus for placing near the center to help the bot pivot once it cannot make a threat in once direction.
 
 For this we can calculate the distance from the center. We will use [Manhattan distance] because tak is played on grid
@@ -443,6 +455,8 @@ def move_ordering(game: Game) -> list[Move]:
     moves = game.possible_moves
     return sorted(moves, key=move_score, reverse=True)
 ```
+
+## Opening Swap
 
 If you try playing the bot now, you'll see something strange.
 The bot does not consider that for the first two [plies], players play the opponents piece.
@@ -536,6 +550,8 @@ def bot_move(game: Game):
 Try playing the bot now! It plays much better!
 
 It can still fall into Tinue easily, but I'll leave that as an exercise for the reader.
+
+---
 
 Some things you can try implementing:
 - Blocking enemy roads (maybe using `row_score` and `col_score`)

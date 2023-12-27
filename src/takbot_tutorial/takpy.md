@@ -2,14 +2,18 @@
 
 When implementing a bot for a board game, one would usually start by making an implementation of the game.
 This is a fun challenge, but it is not a goal for this tutorial. For this reason, we will be using [`takpy`],
-a library I prepared earlier which includes a complete implementation of Tak.
+a library I prepared earlier which includes a complete implementation of Tak. `takpy` mainly includes a state
+representation and the move generation. It does not include a graphical user interface
+(we will eventually be using playtak for that).
+
+> `takpy` is a Python wrapper for [`fast-tak`]. `fast-tak` is a Rust library that I wrote for my AlphaZero bot WilemBot.
+> I am keen on improving the interface, so if you have any feedback, let me know on Discord!
 
 In this section I'll describe how we represent a position in the game, 
 what sort of types there are, and how to use the library to play a game of Tak.
 
-> `takpy` is a Python wrapper for `fast-tak`, a Rust library that I created for WilemBot.
-> Some things might not behave as you expect. If that happens, let me know on Discord so I can improve the interface.
-
+[`takpy`]: https://pypi.org/project/takpy/
+[`fast_tak`]: https://github.com/ViliamVadocz/fast-tak
 
 ## Installation
 
@@ -137,11 +141,19 @@ x4/x,2122,1122S,x/x,21S,21,x/x4 2 12
 
 At `b2` we have a white wall on top of a black flat. This is represented by `(Piece.Wall, [Color.Black, Color.White])`.
 Notice that the colors in the stack are stored bottom to top.
-That means to get the color of the top of the stack you would access the color at `[-1]`.
 
 ```py
 >>> game.board[1][1]  # b2
 (Piece.Wall, [Color.Black, Color.White])
+```
+
+
+Since they are stored bottom to top, to get the color of the top of the stack, you would access the color at `[-1]`.
+
+```py
+>>> piece, colors = game.board[1][1]
+>>> colors[-1]  # getting the color at the top of the stack
+Color.White
 ```
 
 Here are all the other stacks:
@@ -255,8 +267,8 @@ You can use `.clone()` for this:
 ```
 
 The `Game` object also provides various other information,
-such as who's turn it is (`.to_move`),
-what is the result of the game (`.result`),
+such as whose turn it is (`.to_move`),
+what the result of the game (`.result`) is,
 or how many plies have been played (`.ply`).
 
 ```py
@@ -268,7 +280,6 @@ GameResult.Ongoing
 2
 ```
 
-[`takpy`]: https://pypi.org/project/takpy/
 [REPL]: https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop
 [TPS]: https://ustak.org/tak-positional-system-tps/
 [PTN]: https://ustak.org/portable-tak-notation/

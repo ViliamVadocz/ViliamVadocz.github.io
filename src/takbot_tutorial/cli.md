@@ -1,12 +1,14 @@
 # Playing Tak Locally
 
-We'll start building our bot by creating a command line interface (CLI) to play Tak.
-This just means a way for us to enter moves and have them take effect on a virtual board.
+Although it is not necessary to implement a command line interface (CLI) to make
+a tak bot, it is a useful exercise to get familiar with the `takpy` package
+before we move only more complicated topics. Having a simple CLI will also make
+it easy to play with our bot before we set up a connection to [playtak].
+
+We will create a loop which prompts us to enter moves and have them take effect on a virtual board.
 We'll also build a way to visualize the board that is a little easier to look at than TPS strings.
-Having a CLI will make it much easier to test our bot, and this exercise will also let us
-get familiar with the `takpy` package before we jump into more complicated topics.
 
-
+[playtak]: https://playtak.com/
 
 ## Move Loop
 
@@ -31,6 +33,8 @@ x6/x6/x6/x6/x6/x6 1 1
 ```
 
 Next we create a `while` loop that will only exit once the game is over.
+We want to keep asking the user for moves, and that ends when there are no more moves to play.
+
 To find the result of a game, we use `game.result` which can be either `Ongoing`, `WhiteWin`, `BlackWin`, or `Draw`.
 To compare the result we also need to import `GameResult`.
 
@@ -394,6 +398,10 @@ def pretty_print(game: Game):
    a  b  c  d  e  f
 ```
 
+> The letters for the files might appear misaligned on some browsers.
+> It is aligned in my console and that is what matters. If you decide
+> to use different symbols instead of emoji you might need different spacing.
+
 Alright! I'm pretty satisfied with that for now.
 I encourage you to play around with it: Try other symbols, maybe print the sizes of each stack, or even try to display them.
 
@@ -477,9 +485,11 @@ match game.result:
         print("It's a draw!")
 ```
 
-One last thing before we're done here. Let's move the loop and this final message into a function that we call from an `if __name__ == "__main__":` block.
-We should do this so that when we import functions from this module (such as `pretty_print`), we want to avoid running the CLI.
-`__name__` is only equal to `"__main__"` when the current module is the one that was launched by Python.
+One last thing before we're done here. Let's move the loop and this final message into a function
+that we call from an `if __name__ == "__main__":` block.
+We should do this so that when we import functions from this module (such as `pretty_print`),
+we want to avoid running the CLI. `__name__` is only equal to `"__main__"` when the current module
+is the one that was launched by Python.
 
 ```py
 from takpy import new_game, GameResult, Move, Piece, Color, Game
