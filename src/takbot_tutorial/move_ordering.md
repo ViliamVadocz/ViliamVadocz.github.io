@@ -1,7 +1,5 @@
 # Move Ordering
 
-> I am in the process of updating this site. Check back in a few days.
-
 We are finally ready to start making our bot!
 We'll start with something that is perhaps a bit unconventional: [move ordering].
 
@@ -19,7 +17,7 @@ by adding 1 move look-ahead so that our bot doesn't blunder losses in 1. Sounds 
 ## Random Bot
 
 Let's modify our code from the previous chapter to alternate between a player and a bot move.
-We'll create two new functions `player_move` and `bot_move` that both receive a game state and
+We'll create two new functions `player_move` and `bot_move` that both receive a game state and 
 play a move. Then, we modify the the `cli` function to check whether it's the player's or bot's
 turn to move. We'll keep the player color in a new variable called `player_color`.
 
@@ -34,13 +32,14 @@ def cli():
     player_color = Color.White
     game = new_game(6)
 
-    while game.result == GameResult.Ongoing:
+    while game.result() == GameResult.Ongoing:
         pretty_print(game)
         if game.to_move == player_color:
             player_move(game)
         else:
             bot_move(game)
 
+    # Summary after the game.
     pretty_print(game)
     match game.result:
         case GameResult.WhiteWin:
@@ -51,15 +50,16 @@ def cli():
             print("It's a draw!")
 ```
 
-We can continue by moving our code to get a move from the user into `player_move`, although we will want to adapt it.
-We want to keep asking the user until they provide a valid move, and once they do, to stop looping.
+Inside `player_move` we want to keep asking the user for input until they enter a valid move
+(both in terms of PTN and validity in the board state). We will do this by using a `while True`
+loop and breaking only once we succeed in playing a move.
 
 ```py
-def player_move(game: Game):
+def player_move(game: Game) -> Move:
     while True:
         user_input = input("enter move: ")
         try:
-            move = Move.from_ptn(user_input)
+            move = Move(user_input)
         except ValueError as error:
             print(f"invalid PTN: {error}")
             continue
@@ -70,26 +70,28 @@ def player_move(game: Game):
             print(f"invalid move: {error}")
 ```
 
-So that we can test whether we have completed this transformation without introducing any bugs,
+To test whether we have completed this transformation without introducing any bugs,
 let's just make `bot_move` play a random valid move.
-We can get a list of valid moves using `game.possible_moves`, and then for picking a random
+We can get a list of valid moves using `game.possible_moves()`, and then for picking a random
 value out of a list we can use `random.choice` (once we import it).
 
 ```py
 import random  # Put this at the top of the file.
 
 def bot_move(game: Game):
-    random_move = random.choice(game.possible_moves)
+    random_move = random.choice(game.possible_moves())
     game.play(random_move)
     print(f"the bot played {random_move}")
 ```
 
+If you followed along, you can now play against a random bot!
+
 ## A Little Cleanup
 
-We will be adding a lot more to our bot, so to prepare for that, let's reorganize our code into modules.
+A random bot is not very interesting, so let's add to it. We will be adding a lot, so in preparation
+for that let's move everything except `bot_move` to it's own file called `cli.py`
 
-Make two new files `bot.py` and `cli.py`. Move all of the current code into `cli.py`, except for the `bot_move`
-function. Move `bot_move` into `bot.py`. To use `bot_move` from `cli.py` we need to import it like this:
+Then, to make things work again, we need to import `bot_move` from `bot.py` like this (put it at the top of `cli.py`):
 
 ```py
 from bot import bot_move
@@ -97,47 +99,46 @@ from bot import bot_move
 
 > Make sure to add missing imports to `bot.py`, and remove any unnecessary ones in `cli.py` (such as `import random`).
 
-Try running `python cli.py` now. You should be able to play against your random bot.
+Try running `python cli.py` now. You should be able to play against your random bot again.
 
 ## Ranking Moves
 
-There are multiple ways to implement move ordering.
-For this tutorial we will give each move a score,
-and the moves with the highest scores will be ranked first.
-
-Let's add a new function `move_ordering` which takes a `Game` instance and returns a sorted list of `Move`s.
-Then, in `bot_move`, we use that function to play the "best" move.
+In this tutorial we will implement move ordering by giving each move a score.
+The moves with the highest score will be ranked first.
+Let's implement this by adding a new function `move_score` which gets a Move, and returns an number.
 
 ```py
-def move_ordering(game: Game) -> list[Move]:
-    moves = game.possible_moves
-    return sorted(moves)
+def move_score(move: Move) -> float:
+    return 0
+```
 
+Then, in `bot_move`, we can pick the move that scores highest according to this function.
+We do this with `max`, and by specifying our `move_score` function as the `key`.
+This will run our function for each move, and return the one that gives the highest output. 
+
+```py
 def bot_move(game: Game):
-    moves = move_ordering(game)
-    best_move = moves[0] 
+    possible_moves = game.possible_moves()
+    best_move = max(possible_moves, key=move_score)
     game.play(best_move)
     print(f"the bot played {best_move}")
 ```
 
-If you try that code above you'll see an error like
-`TypeError: '<' not supported between instances of 'builtins.Move' and 'builtins.Move'`.
-That's because we are using `sorted` on a list of moves, but we haven't implemented
-anything to compare the moves.
-
-We can do this by defining another function that will score each move, and then we sort according to the scores.
-Let's define this function *inside* `move_ordering`, so that we have easy access to variables we will pre-compute for all moves.
-
-Then, we can use this new function as a key for `sorted`. We want higher scores to appear earlier in the list, so we should also tell
-`sorted` to reverse the order (by default it sorts ascending, smallest to highest).
+Often the best move depends on the board state, so it would be useful to have access to that
+in the scoring function (currently we only have access to the move). We might also compute
+some statistics later, and we would want to reuse them for each move. The easiest way to do
+that right now is to just define `move_score` *inside* `bot_move`, so that it has access to
+all our local variables such as the `game`.
 
 ```py
-def move_ordering(game: Game) -> list[Move]:
+def bot_move(game: Game):
     def move_score(move: Move) -> float:
-        ...
+        return 0
 
-    moves = game.possible_moves
-    return sorted(moves, key=move_score, reverse=True)
+    possible_moves = game.possible_moves()
+    best_move = max(possible_moves, key=move_score)
+    game.play(best_move)
+    print(f"the bot played {best_move}")
 ```
 
 ## Heuristics
@@ -156,7 +157,7 @@ placements above spreads.
 # You need to import `MoveKind` as well.
 from takpy import GameResult, Move, Piece, Color, Game, MoveKind
 
-def move_ordering(game: Game) -> list[Move]:
+def bot_move(game: Game):
     def move_score(move: Move) -> float:
         match move.kind:
             case MoveKind.Place:
@@ -164,8 +165,7 @@ def move_ordering(game: Game) -> list[Move]:
             case MoveKind.Spread:
                 return 0
 
-    moves = game.possible_moves
-    return sorted(moves, key=move_score, reverse=True)
+    ... # Same as before.
 ```
 
 Now, all placements will get a score of `100`, while all spreads get a score of `0`.
@@ -174,14 +174,14 @@ The placement location and piece type will depend on what order the moves are ge
 
 It's better than nothing, but we can do much better.
 
-We'll need to combine multiple different heuristics, so let's keep a `score` which we will add to.
+We'll need to combine multiple different heuristics, so let's keep a `score` variable which we will add to.
 Let's also name our constants so that we don't end up with a bunch of [magic numbers].
 
 ```py
 PLACEMENT = 100
 SPREAD = 0
 
-def move_ordering(game: Game) -> list[Move]:
+def bot_move(game: Game):
     def move_score(move: Move) -> float:
         score = 0
         match move.kind:
@@ -191,8 +191,7 @@ def move_ordering(game: Game) -> list[Move]:
                 score += SPREAD
         return score
 
-    moves = game.possible_moves
-    return sorted(moves, key=move_score, reverse=True)
+    ...
 ```
 
 ### Flats > Capstones > Walls
@@ -206,7 +205,7 @@ FLAT = 100
 CAP = 50
 WALL = 0
 
-def move_ordering(game: Game) -> list[Move]:
+def bot_move(game: Game):
     def move_score(move: Move) -> float:
         score = 0
         match move.kind:
@@ -223,8 +222,7 @@ def move_ordering(game: Game) -> list[Move]:
                 score += WALL
         return score
 
-    moves = game.possible_moves
-    return sorted(moves, key=move_score, reverse=True)
+    ...
 ```
 
 > Note that `move.piece` will return `None` if the move was a spread.
@@ -232,40 +230,46 @@ def move_ordering(game: Game) -> list[Move]:
 ### Making Roads
 
 We should also think about *where* it's good to place.
-I think it is good to place road pieces where it contributes to a road effort.
-Calculating which square benefits mosts roads is hard, but a decent heuristic is prioritizing squares
+To win, the bot should make road threats, and thus we might want to prioritize
+squares which continue our existing roads. Calculating which square benefits
+most roads is hard, but a decent heuristic is prioritizing squares
 that are in the same row or column as existing road pieces.
 
 A road piece is either a flat or capstone. We will check for this often,
 so let's make it a function `road_piece`.
 
 ```py
-def road_piece(piece: Piece) -> bool:
+def road_piece(piece: Piece | None) -> bool:
     return piece == Piece.Flat or piece == Piece.Cap
 ```
+
+> The input type is `Piece | None` because we will generally use it
+> in combination with `move.piece` which could be `None` if the move
+> is a spread.
 
 For the heuristic mentioned above, let's try counting how many
 road pieces are in the same row or column as some given square.
 For example, for the position below, I have looked at each empty square,
-and counted how many road pieces are in the same row or column.
+and counted how many road pieces are in the same row or column (as white).
 
 ![An opening position where each empty square has a number counting how many road pieces are in the same row or column as that square](images/row_column_score.png)
 
 For this example, `f5` and `f1` would score highly, which is what we want since those placements build towards a road.
 
-The row and column information doesn't change from between the different moves that
-we are ranking, so we can just do it once in the outer function `move_ordering`.
+The row and column information doesn't change between the different moves that
+we are scoring, so we can just calculate it once in the outer function `bot_move`.
 To keep our code modular, let's split the implementation into multiple functions
 that we can reuse for other heuristics.
 
 ```py
 from collections.abc import Iterable
 
-# Type aliases to make writing type hints easier
+# Helper types
 Stack = tuple[Piece, list[Color]]
 Board = list[list[None | Stack]]
 
 def count_road_pieces(stacks: Iterable[None | Stack], color: Color) -> int:
+    """Count how many stacks have a road piece with our color on top."""
     only_stacks = (stack for stack in stacks if stack is not None)
     return sum(
         road_piece(piece) for piece, colors in only_stacks if colors[-1] == color
@@ -273,61 +277,52 @@ def count_road_pieces(stacks: Iterable[None | Stack], color: Color) -> int:
 
 
 def columns(board: Board) -> Board:
+    """Get the columns of a board."""
     return [[row[i] for row in board] for i in range(len(board[0]))]
 
 
 def row_score(board: Board, color: Color) -> list[int]:
+    """Count the road pieces per row."""
     return [count_road_pieces(row, color) for row in board]
 
 
 def col_score(board: Board, color: Color) -> list[int]:
+    """Count the road pieces per column."""
     return [count_road_pieces(col, color) for col in columns(board)]
 ```
 
-> In case you are unfamiliar with the notation I used,
-> take a look at [list comprehensions] and [generator expressions];
-> they're great.
+> This might be a little overwhelming at first, especially since I
+> used [list comprehensions] and [generator expressions] which you
+> might not be familiar with. A good exercise is to try implementing
+> it yourself in your own way, or to try modifying it to see what
+> happens.
 
 Now we can precalculate the row and column scores, and look them up when ranking placements.
 
 ```py
-PLACEMENT = 100
-SPREAD = 0
-FLAT = 100
-CAP = 50
-WALL = 0
+...
 ROW_COLUMN_ROAD = 10
 
 
-def move_ordering(game: Game) -> list[Move]:
-    board = game.board
+def bot_move(game: Game):
+    board = game.board()
+    # Precompute row and column scores.
     my_row_score = row_score(board, game.to_move)
     my_col_score = col_score(board, game.to_move)
 
     def move_score(move: Move) -> float:
         score = 0
         row, column = move.square
-        match move.kind:
-            case MoveKind.Place:
-                score += PLACEMENT
-            case MoveKind.Spread:
-                score += SPREAD
-        match move.piece:
-            case Piece.Flat:
-                score += FLAT
-            case Piece.Cap:
-                score += CAP
-            case Piece.Wall:
-                score += WALL
+        match move.kind: ...
+        match move.piece: ...
         if road_piece(move.piece):
             score += ROW_COLUMN_ROAD * (my_row_score[row] + my_col_score[column])
         return score
 
-    moves = game.possible_moves
-    return sorted(moves, key=move_score, reverse=True)
+    ...
 ```
 
-With that implemented, the bot now tries to build for a road, although it doesn't take into account when it has been blocked.
+With that implemented, the bot now tries to build a road, although it doesn't take into account when it has been blocked.
 Maybe we can encourage placing the capstone next to opponent stacks so that the bot has the opportunity to capture onto them
 for a road in the future.
 
@@ -338,6 +333,7 @@ which do not exist on the board, but once that is taken care of, it's not diffic
 
 ```py
 def neighbor_stacks(board: Board, size: int, row: int, col: int) -> list[Stack]:
+    """Get the neighboring stacks to a square."""
     neighbors = []
     if row < size - 1:
         neighbors.append(board[row + 1][col])
@@ -354,19 +350,15 @@ Then we can look at the neighboring stacks when placing a capstone and add a bon
 multiplied by height to encourage attacking tall stacks.
 
 ```py
-PLACEMENT = 100
-SPREAD = 0
-FLAT = 100
-CAP = 50
-WALL = 0
-ROW_COLUMN_ROAD = 10
+...
 CAP_NEXT_TO_OPPONENT_STACK = 50
 
 
 def move_ordering(game: Game) -> list[Move]:
-    board = game.board
+    board = game.board()
     my_color = game.to_move
     opp_color = game.to_move.next()
+    # Precompute row and column scores.
     my_row_score = row_score(board, my_color)
     my_col_score = col_score(board, my_color)
 
@@ -374,11 +366,7 @@ def move_ordering(game: Game) -> list[Move]:
         score = 0
         row, column = move.square
         neighbors = neighbor_stacks(board, game.size, row, column)
-        match move.kind:
-            case MoveKind.Place:
-                score += PLACEMENT
-            case MoveKind.Spread:
-                score += SPREAD
+        match move.kind: ...
         match move.piece:
             case Piece.Flat:
                 score += FLAT
@@ -389,20 +377,18 @@ def move_ordering(game: Game) -> list[Move]:
                         score += CAP_NEXT_TO_OPPONENT_STACK * len(colors)
             case Piece.Wall:
                 score += WALL
-        if road_piece(move.piece):
-            score += ROW_COLUMN_ROAD * (my_row_score[row] + my_col_score[column])
+        if road_piece(move.piece): ...
         return score
 
-    moves = game.possible_moves
-    return sorted(moves, key=move_score, reverse=True)
+    ...
 ```
 
 ### Central Placements
 
 Let's also add a bonus for placing near the center to help the bot pivot once it cannot make a threat in once direction.
 
-For this we can calculate the distance from the center. We will use [Manhattan distance] because tak is played on grid
-and road connections are orthogonal. It's easier to work with.
+For this we can calculate the distance from the center. We will use [Manhattan distance] because Tak is played on grid
+and road connections are orthogonal. It's more natural to work with.
 
 ```py
 def distance_from_center(row: int, col: int, size: int) -> float:
@@ -413,22 +399,12 @@ def distance_from_center(row: int, col: int, size: int) -> float:
 Then we use this function to get the distance, and subtract it from the score when placing.
 
 ```py
-PLACEMENT = 100
-SPREAD = 0
-FLAT = 100
-CAP = 50
-WALL = 0
-ROW_COLUMN_ROAD = 10
-CAP_NEXT_TO_OPPONENT_STACK = 50
+...
 CENTER_PLACEMENT = 10
 
 
 def move_ordering(game: Game) -> list[Move]:
-    board = game.board
-    my_color = game.to_move
-    opp_color = game.to_move.next()
-    my_row_score = row_score(board, my_color)
-    my_col_score = col_score(board, my_color)
+    ...
 
     def move_score(move: Move) -> float:
         score = 0
@@ -438,40 +414,33 @@ def move_ordering(game: Game) -> list[Move]:
         match move.kind:
             case MoveKind.Place:
                 score += PLACEMENT
+                # We subtract the distance from the center
                 score -= CENTER_PLACEMENT * distance
             case MoveKind.Spread:
                 score += SPREAD
-        match move.piece:
-            case Piece.Flat:
-                score += FLAT
-            case Piece.Cap:
-                score += CAP
-                for _piece, colors in neighbors:
-                    if colors[-1] == opp_color:
-                        score += CAP_NEXT_TO_OPPONENT_STACK * len(colors)
-            case Piece.Wall:
-                score += WALL
-        if road_piece(move.piece):
+        match move.piece: ...
+        if road_piece(move.piece): 
             score += ROW_COLUMN_ROAD * (my_row_score[row] + my_col_score[column])
         return score
 
-    moves = game.possible_moves
-    return sorted(moves, key=move_score, reverse=True)
+    ...
 ```
 
 ## Opening Swap
 
-If you try playing the bot now, you'll see something strange.
+If you try playing the bot now, you'll see something strange. It places your first piece in the center.
 The bot does not consider that for the first two [plies], players play the opponents piece.
-There are several ways to address this (you could even use a hardcoded opening), but maybe easiest
-is just to reverse how we rank the moves for the first two plies. Since we are already reversing
-at the end of `move_ordering`, we can just make it conditional and only reverse after the first
-two plies have passed.
+There are several ways to address this (you could even hardcode an opening), but maybe easiest
+is just to pick the lowest scoring move for the first two plies. This corresponds to using `min`
+when `game.ply < 2`
 
 ```py
-def move_ordering(game: Game) -> list[Move]:
+def bot_move(game: Game):
     ...
-    return sorted(moves, key=move_score, reverse=game.ply > 1)
+    if game.ply < 2:
+        best_move = min(possible_moves, key=move_score)
+    else:
+        best_move = max(possible_moves, key=move_score)
 ```
 
 ## One-move Lookahead
@@ -484,10 +453,10 @@ I think the best thing we can do for our bot right now would be adding search.
 I want to leave that for the next chapters, so instead I suggest we limit ourselves to a single move
 lookahead. That means taking winning moves when we have them, and to prevent roads in 1 (when possible).
 
-The idea is that for each of our moves that we get out of `move_ordering`
-we will try playing it on a "virtual" board to see if it wins. If yes, we can just play it.
-We can also check all of the opponent's moves from the position after our prospective move
-to see if they can make a road. If yes, we should avoid playing that move.
+The idea is to use the score to order the moves from best to worst, and to try them
+on a "virtual" board to see if it wins. If yes, we can just play it.
+We can likewise check the opponent's moves before playing our prospective move to
+see whether they can win. If yes, we should avoid playing that move.  move.
 
 Whether it's for us or for the opponent, we want to know if the current player can win.
 Let's implement a function to check that and give us the winning move.
@@ -506,51 +475,148 @@ likely winning moves early, then we do not have to simulate as many moves.
 This idea of searching promising moves first will come up again when implementing
 Alpha-Beta search in the next few chapters.
 
+Since we care about more than just the best move now, we will sort the moves instead of just
+taking the maximum or minimum scoring one.
+
 Now we can use that function in `bot_move` to take immediate wins.
 
 ```py
 def bot_move(game: Game):
-    moves = move_ordering(game)
-    best_move = moves[0]
+    ...
+    def move_score(move: Move):
+        ...
 
-    possibly_winning = winning_move(game, moves)
+    possible_moves = game.possible_moves()
+    sorted_moves = sorted(possible_moves, key=move_score, reverse=game.ply >= 2)
+    best_move = sorted_moves[0]
+
+    possibly_winning = winning_move(game, sorted_moves)
     if possibly_winning is not None:
         # Take immediate wins.
         best_move = possibly_winning
 
-    print(f"the bot played {best_move}")
     game.play(best_move)
+    print(f"the bot played {best_move}")
 ```
 
-Avoiding a road in 1 is a bit more complicated, but not too much.
+> `sorted` is similar to `min` and `max` in that it takes a `key` function.
+> It would normally order the moves from smallest score to highest,
+> so we reverse the order when the is out of the opening swap.
+
+Before we add avoidance for losses in 1, let's so some minor refactoring because this `bot_move`
+function has grown quite large. Let's make a function `move_ordering` which takes a list
+of moves and returns it in order. We will transplant most of `bot_move` into it.
+
+```py
+def move_ordering(game: Game) -> list[Move]:
+    board = game.board()
+    my_color = game.to_move
+    opp_color = game.to_move.next()
+    # Precompute row and column scores.
+    my_row_score = row_score(board, game.to_move)
+    my_col_score = col_score(board, game.to_move)
+
+    def move_score(move: Move) -> float:
+        ...
+ 
+    possible_moves = game.possible_moves()
+    return sorted(possible_moves, key=move_score, reverse=game.ply >= 2)
+
+def bot_move(game: Game):
+    sorted_moves = move_ordering(game)
+    best_move = sorted_moves[0]
+
+    possibly_winning = winning_move(game, sorted_moves)
+    if possibly_winning is not None:
+        # Take immediate wins.
+        best_move = possibly_winning
+
+    game.play(best_move)
+    print(f"the bot played {best_move}")
+```
+
+Then we can decompose `move_score` into more helper functions to make it a bit easier on the eyes:
+
+```py
+def move_kind_bonus(kind: MoveKind, distance: float) -> float:
+    match kind:
+        case MoveKind.Place:
+            return PLACEMENT - CENTER_PLACEMENT * distance
+        case MoveKind.Spread:
+            return SPREAD
+
+
+def piece_type_bonus(
+    piece: Piece | None, opp_color: Color, neighbors: list[Stack]
+) -> float:
+    match piece:
+        case Piece.Flat:
+            return FLAT
+        case Piece.Cap:
+            score = CAP
+            for _piece, colors in neighbors:
+                if colors[-1] == opp_color:
+                    score += CAP_NEXT_TO_OPPONENT_STACK * len(colors)
+            return score
+        case Piece.Wall:
+            return WALL
+        case None:
+            return 0
+
+
+def move_ordering(game: Game) -> list[Move]:
+    board = game.board()
+    my_color, opp_color = game.to_move, game.to_move.next()
+    # Precompute row and column scores.
+    my_row_score = row_score(board, game.to_move)
+    my_col_score = col_score(board, game.to_move)
+
+    def move_score(move: Move) -> float:
+        score = 0
+        row, column = move.square
+        distance = distance_from_center(row, column, game.size)
+        neighbors = neighbor_stacks(board, game.size, row, column)
+        score += move_kind_bonus(move.kind, distance)
+        score += piece_type_bonus(move.piece, opp_color, neighbors)
+        if road_piece(move.piece):
+            score += ROW_COLUMN_ROAD * (my_row_score[row] + my_col_score[column])
+        return score
+
+    possible_moves = game.possible_moves()
+    return sorted(possible_moves, key=move_score, reverse=game.ply >= 2)
+```
+
+Alright, that should do.
+
+Avoiding a road in 1 is a bit more complicated than picking a winning move, but not by much.
 The basic idea is that we try each move, and then if the game is not lost already,
-we check if they have a winning move. If they don't we can play this move and
+we check if the opponent has a winning move. If they don't we can play this move and
 we break out of the loop.
 
 ```py
 def bot_move(game: Game):
-    moves = move_ordering(game)
-    best_move = moves[0]
+    sorted_moves = move_ordering(game)
+    best_move = sorted_moves[0]
 
-    possibly_winning = winning_move(game, moves)
+    possibly_winning = winning_move(game, sorted_moves)
     if possibly_winning is not None:
         # Take immediate wins.
         best_move = possibly_winning
     else:
         # Look for the first non-losing move.
-        for my_move in moves:
+        for my_move in sorted_moves:
             after_my_move = game.clone_and_play(my_move)
-            if after_my_move.result.color() == after_my_move.to_move:
+            if after_my_move.result().color() == after_my_move.to_move:
                 continue  # I made a road for the opponent accidentally.
             if winning_move(after_my_move, move_ordering(after_my_move)) is None:
                 best_move = my_move
                 break
 
-    print(f"the bot played {best_move}")
     game.play(best_move)
+    print(f"the bot played {best_move}")
 ```
 
-Try playing the bot now! It plays much better!
+Try playing the bot now. It plays much better!
 
 It can still fall into Tinue easily, but I'll leave that as an exercise for the reader.
 
