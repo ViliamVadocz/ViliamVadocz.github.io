@@ -1,17 +1,20 @@
 # Move Ordering
 
-Now we are finally ready to start making our bot. We'll start with something that is perhaps a bit unconventional: [move ordering].
+> I am in the process of updating this site. Check back in a few days.
+
+We are finally ready to start making our bot!
+We'll start with something that is perhaps a bit unconventional: [move ordering].
 
 The usual way to introduce bot-making for board games (if one can even say there is a usual way)
-is to start with some kind of tree-search such as minimax and then work through to [Negamax],
-[Alpha-Beta pruning], and eventually add move ordering to improve performance.
-In this tutorial we start with move ordering because I think it's a bit easier for someone
-who has never heard of graphs and trees in the context of games.
+is to start with some kind of tree-search such as [Minimax] and then work through to [Negamax],
+[Alpha-Beta pruning], and eventually add [Move Ordering] to improve performance.
+In this tutorial we start with Move Ordering because I think it's a bit easier to grasp
+for someone who has never heard of [graphs] and [trees] in the context of games.
 As a bonus we'll get an IntuitionBot-style engine out of it which is easy to change.
 
-The basic idea of move ordering is to rank moves from best to worst according to some [heuristic].
-In the short term, our bot will just take the top move. After that we will add 1 move look-ahead
-so that our bot doesn't blunder losses in 1. Sounds like a plan?
+The basic idea of Move Ordering is to rank moves from best to worst according to some [heuristic].
+In the short term, our bot will just take the top move. Then we take a peek at planning
+by adding 1 move look-ahead so that our bot doesn't blunder losses in 1. Sounds like a plan?
 
 ## Random Bot
 
@@ -576,7 +579,7 @@ better than another? Are there any ideas you can re-use from move ordering?
 You can find the final code for this chapter here: <https://github.com/ViliamVadocz/takbot-tutorial/tree/main/part_2>
 
 [move ordering]: https://www.chessprogramming.org/Move_Ordering
-[negamax]: https://en.wikipedia.org/wiki/Negamax
+[Negamax]: https://en.wikipedia.org/wiki/Negamax
 [Alpha-Beta pruning]: https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning
 [heuristic]: https://en.wikipedia.org/wiki/Heuristic_(computer_science)
 [magic numbers]: https://en.wikipedia.org/wiki/Magic_number_(programming)
@@ -585,3 +588,7 @@ You can find the final code for this chapter here: <https://github.com/ViliamVad
 [Manhattan distance]: https://en.wikipedia.org/wiki/Taxicab_geometry
 [plies]: https://en.wikipedia.org/wiki/Ply_(game_theory)
 [FCD]: https://youtu.be/SHk5EBJpWOg
+[graphs]: https://en.wikipedia.org/wiki/Graph
+[tree]: https://en.wikipedia.org/wiki/Tree_(abstract_data_type)
+[Minimax]: https://en.wikipedia.org/wiki/Minimax
+[move ordering]: https://www.chessprogramming.org/Move_Ordering
