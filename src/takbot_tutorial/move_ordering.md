@@ -38,6 +38,7 @@ def cli():
             move = player_move(game)
         else:
             move = bot_move(game)
+            print(f"the bot played {move}")
         game.play(move)
 
     # Summary after the game.
@@ -82,7 +83,6 @@ import random  # Put this at the top of the file.
 def bot_move(game: Game) -> Move:
     """Pick a move automatically."""
     random_move = random.choice(game.possible_moves())
-    print(f"the bot played {random_move}")
     return random_move
 ```
 
@@ -124,7 +124,6 @@ def bot_move(game: Game) -> Move:
     """Pick a move automatically."""
     possible_moves = game.possible_moves()
     best_move = max(possible_moves, key=move_score)
-    print(f"the bot played {best_move}")
     return best_move
 ```
 
@@ -143,7 +142,6 @@ def bot_move(game: Game) -> Move:
 
     possible_moves = game.possible_moves()
     best_move = max(possible_moves, key=move_score)
-    print(f"the bot played {best_move}")
     return best_move
 ```
 
@@ -512,8 +510,7 @@ def bot_move(game: Game):
         # Take immediate wins.
         best_move = possibly_winning
 
-    game.play(best_move)
-    print(f"the bot played {best_move}")
+    return best_move
 ```
 
 > `sorted` is similar to `min` and `max` in that it takes a `key` function.
@@ -550,8 +547,7 @@ def bot_move(game: Game):
         # Take immediate wins.
         best_move = possibly_winning
 
-    game.play(best_move)
-    print(f"the bot played {best_move}")
+    return best_move
 ```
 
 Then we can decompose `move_score` into more helper functions to make it a bit easier on the eyes:
@@ -635,7 +631,6 @@ def bot_move(game: Game):
                 best_move = my_move
                 break
 
-    print(f"the bot played {best_move}")
     return best_move
 ```
 
