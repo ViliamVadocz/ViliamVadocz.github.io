@@ -18,14 +18,14 @@ by adding 1 move look-ahead so that our bot doesn't blunder losses in 1. Sounds 
 
 Let's modify our code from the previous chapter to alternate between a player and a bot move.
 We'll create two new functions `player_move` and `bot_move` that both receive a game state and 
-play a move. Then, we modify the the `cli` function to check whether it's the player's or bot's
+return a move. Then, we modify the the `cli` function to check whether it's the player's or bot's
 turn to move. We'll keep the player color in a new variable called `player_color`.
 
 ```py
-def player_move(game: Game):
+def player_move(game: Game) -> Move:
     ...
 
-def bot_move(game: Game):
+def bot_move(game: Game) -> Move:
     ...
 
 def cli():
@@ -35,9 +35,10 @@ def cli():
     while game.result() == GameResult.Ongoing:
         pretty_print(game)
         if game.to_move == player_color:
-            player_move(game)
+            move = player_move(game)
         else:
-            bot_move(game)
+            move = bot_move(game)
+        game.play(move)
 
     # Summary after the game.
     pretty_print(game)
@@ -64,8 +65,8 @@ def player_move(game: Game) -> Move:
             print(f"invalid PTN: {error}")
             continue
         try:
-            game.play(move)
-            break  # valid move was entered and played
+            game.clone_and_play(move) # try the move
+            return move  # valid move was entered and played
         except ValueError as error:
             print(f"invalid move: {error}")
 ```
@@ -78,10 +79,11 @@ value out of a list we can use `random.choice` (once we import it).
 ```py
 import random  # Put this at the top of the file.
 
-def bot_move(game: Game):
+def bot_move(game: Game) -> Move:
+    """Pick a move automatically."""
     random_move = random.choice(game.possible_moves())
-    game.play(random_move)
     print(f"the bot played {random_move}")
+    return random_move
 ```
 
 If you followed along, you can now play against a random bot!
@@ -109,6 +111,7 @@ Let's implement this by adding a new function `move_score` which gets a Move, an
 
 ```py
 def move_score(move: Move) -> float:
+    """Give each move a score. Larger is better."""
     return 0
 ```
 
@@ -117,11 +120,12 @@ We do this with `max`, and by specifying our `move_score` function as the `key`.
 This will run our function for each move, and return the one that gives the highest output. 
 
 ```py
-def bot_move(game: Game):
+def bot_move(game: Game) -> Move:
+    """Pick a move automatically."""
     possible_moves = game.possible_moves()
     best_move = max(possible_moves, key=move_score)
-    game.play(best_move)
     print(f"the bot played {best_move}")
+    return best_move
 ```
 
 Often the best move depends on the board state, so it would be useful to have access to that
@@ -131,14 +135,16 @@ that right now is to just define `move_score` *inside* `bot_move`, so that it ha
 all our local variables such as the `game`.
 
 ```py
-def bot_move(game: Game):
+def bot_move(game: Game) -> Move:
+    """Pick a move automatically."""
     def move_score(move: Move) -> float:
+        """Give each move a score. Larger is better."""
         return 0
 
     possible_moves = game.possible_moves()
     best_move = max(possible_moves, key=move_score)
-    game.play(best_move)
     print(f"the bot played {best_move}")
+    return best_move
 ```
 
 ## Heuristics
@@ -157,8 +163,10 @@ placements above spreads.
 # You need to import `MoveKind` as well.
 from takpy import GameResult, Move, Piece, Color, Game, MoveKind
 
-def bot_move(game: Game):
+def bot_move(game: Game) -> Move:
+    """Pick a move automatically."""
     def move_score(move: Move) -> float:
+        """Give each move a score. Larger is better."""
         match move.kind:
             case MoveKind.Place:
                 return 100
@@ -181,8 +189,10 @@ Let's also name our constants so that we don't end up with a bunch of [magic num
 PLACEMENT = 100
 SPREAD = 0
 
-def bot_move(game: Game):
+def bot_move(game: Game) -> Move:
+    """Pick a move automatically."""
     def move_score(move: Move) -> float:
+        """Give each move a score. Larger is better."""
         score = 0
         match move.kind:
             case MoveKind.Place:
@@ -205,8 +215,10 @@ FLAT = 100
 CAP = 50
 WALL = 0
 
-def bot_move(game: Game):
+def bot_move(game: Game) -> Move:
+    """Pick a move automatically."""
     def move_score(move: Move) -> float:
+        """Give each move a score. Larger is better."""
         score = 0
         match move.kind:
             case MoveKind.Place:
@@ -305,12 +317,14 @@ ROW_COLUMN_ROAD = 10
 
 
 def bot_move(game: Game):
+    """Pick a move automatically."""
     board = game.board()
     # Precompute row and column scores.
     my_row_score = row_score(board, game.to_move)
     my_col_score = col_score(board, game.to_move)
 
     def move_score(move: Move) -> float:
+        """Give each move a score. Larger is better."""
         score = 0
         row, column = move.square
         match move.kind: ...
@@ -354,7 +368,8 @@ multiplied by height to encourage attacking tall stacks.
 CAP_NEXT_TO_OPPONENT_STACK = 50
 
 
-def move_ordering(game: Game) -> list[Move]:
+def bot_move(game: Game) -> Move:
+    """Pick a move automatically."""
     board = game.board()
     my_color = game.to_move
     opp_color = game.to_move.next()
@@ -363,6 +378,7 @@ def move_ordering(game: Game) -> list[Move]:
     my_col_score = col_score(board, my_color)
 
     def move_score(move: Move) -> float:
+        """Give each move a score. Larger is better."""
         score = 0
         row, column = move.square
         neighbors = neighbor_stacks(board, game.size, row, column)
@@ -403,10 +419,11 @@ Then we use this function to get the distance, and subtract it from the score wh
 CENTER_PLACEMENT = 10
 
 
-def move_ordering(game: Game) -> list[Move]:
+def bot_move(game: Game) -> Move:
     ...
 
     def move_score(move: Move) -> float:
+        """Give each move a score. Larger is better."""
         score = 0
         row, column = move.square
         neighbors = neighbor_stacks(board, game.size, row, column)
@@ -509,6 +526,7 @@ of moves and returns it in order. We will transplant most of `bot_move` into it.
 
 ```py
 def move_ordering(game: Game) -> list[Move]:
+    """Return an ordering of the possible moves from best to worst."""
     board = game.board()
     my_color = game.to_move
     opp_color = game.to_move.next()
@@ -523,6 +541,7 @@ def move_ordering(game: Game) -> list[Move]:
     return sorted(possible_moves, key=move_score, reverse=game.ply >= 2)
 
 def bot_move(game: Game):
+    """Pick a move automatically."""
     sorted_moves = move_ordering(game)
     best_move = sorted_moves[0]
 
@@ -539,6 +558,7 @@ Then we can decompose `move_score` into more helper functions to make it a bit e
 
 ```py
 def move_kind_bonus(kind: MoveKind, distance: float) -> float:
+    """Get the move score bonus based on the move kind."""
     match kind:
         case MoveKind.Place:
             return PLACEMENT - CENTER_PLACEMENT * distance
@@ -549,6 +569,7 @@ def move_kind_bonus(kind: MoveKind, distance: float) -> float:
 def piece_type_bonus(
     piece: Piece | None, opp_color: Color, neighbors: list[Stack]
 ) -> float:
+    """Get the move score bonus based on the piece type."""
     match piece:
         case Piece.Flat:
             return FLAT
@@ -565,6 +586,7 @@ def piece_type_bonus(
 
 
 def move_ordering(game: Game) -> list[Move]:
+    """Return an ordering of the possible moves from best to worst."""
     board = game.board()
     my_color, opp_color = game.to_move, game.to_move.next()
     # Precompute row and column scores.
@@ -572,6 +594,7 @@ def move_ordering(game: Game) -> list[Move]:
     my_col_score = col_score(board, game.to_move)
 
     def move_score(move: Move) -> float:
+        """Give each move a score. Larger is better."""
         score = 0
         row, column = move.square
         distance = distance_from_center(row, column, game.size)
@@ -612,8 +635,8 @@ def bot_move(game: Game):
                 best_move = my_move
                 break
 
-    game.play(best_move)
     print(f"the bot played {best_move}")
+    return best_move
 ```
 
 Try playing the bot now. It plays much better!
