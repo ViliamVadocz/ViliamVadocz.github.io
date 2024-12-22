@@ -25,7 +25,7 @@ pip install websockets
 We will handle all of PlayTak communication in a new file called `playtak.py`.
 We start our implementation by opening a connection, receiving two messages to check that things are working,
 and then quitting. Unfortunately, PlayTak is not a nicely behaved WebSocket server, so we have to explicitly
-state the subprotocol and disable pings. All of that looks like this:
+state the subprotocol and disable ping timeout. All of that looks like this:
 
 ```py
 import asyncio
@@ -48,7 +48,7 @@ if __name__ == "__main__":
 
 > Thanks to @the1Rogue on Discord for helping me out [here](https://discord.com/channels/176389490762448897/361023655465058307/1320016862578212925).
 
-We will be using [`asyncio`] for asynchronous execution so that we can manually ping PlayTak while our bot is thinking.
+We will be using [`asyncio`] for asynchronous execution so that we talk to the PlayTak server while our bot is thinking.
 Don't worry if you have never used `async-await` syntax. It will be isolated to code which deals with PlayTak communication,
 and all of that you can just copy from the tutorial.
 
@@ -59,7 +59,7 @@ We use `await` if we want to wait for the result (i.e. waiting until we get a me
 ## Keeping the connection alive
 
 WebSocket supports sending pings (short round-trip heartbeat messages) natively, but unfortunately the PlayTak server doesn't deal with
-them correctly. Instead, the PlayTak protocol requires us to text `PING` every half-minute, to which it replies with `OK`.
+them correctly. Instead, the PlayTak protocol requires us to send the text `PING` every half-minute, to which it replies with `OK`.
 For simplicity we won't be trying to match up our requests to specific `OK` responses. We also won't be checking whether we received this `OK`.
 This makes pinging periodically relatively easy:
 
@@ -330,6 +330,8 @@ There are many things you could add from here on out. Here are some of my sugges
 - Make the seek configurable through command line arguments, or perhaps even through chat!
     (You can look for `Shout <PLAYER> <MESSAGE>` messages to read the Global chat.)
 - Retrieve how much time your bot has left (this may be useful in the next chapter).
+
+The code for this chapter can be found here: https://github.com/ViliamVadocz/takbot-tutorial/tree/main/part_3
 
 [PlayTak]: https://playtak.com/
 [GitHub repository for the PlayTak server]: https://github.com/USTakAssociation/tak-server?tab=readme-ov-file#client-to-server-communication
