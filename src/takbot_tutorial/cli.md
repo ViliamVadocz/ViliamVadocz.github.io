@@ -475,13 +475,18 @@ if __name__ == "__main__":
     cli()
 ```
 
-And that's it!
+And that's it! You can try adding some more features on your own. Here are some suggestions:
+- Specify the board size from the command line. (Make them parameters of `cli` and read the arguments from `sys.argv`)
+- Allow undoing moves. (Keep track of the previous position (or even the whole history),
+    and if a player writes `undo`, replace the current game with the previous one)
+- Suggest a possible move if the user made a typo. (Compute [edit distance] for each possible move.)
 
 You can find the final code for this chapter here: <https://github.com/ViliamVadocz/takbot-tutorial/blob/main/part_1/bot.py>
 
 [CLI]: https://en.wikipedia.org/wiki/Command-line_interface
+[edit-distance]: https://en.wikipedia.org/wiki/Edit_distance
 [PlayTak]: https://playtak.com/
-[VSCode]: https://code.visualstudio.com/
+[PTN]: https://ustak.org/portable-tak-notation/
 [takpy]: https://pypi.org/project/takpy/
 [TPS]: https://ustak.org/tak-positional-system-tps/
-[PTN]: https://ustak.org/portable-tak-notation/
+[VSCode]: https://code.visualstudio.com/

@@ -644,17 +644,17 @@ better than another? Are there any ideas you can re-use from move ordering?
 
 You can find the final code for this chapter here: <https://github.com/ViliamVadocz/takbot-tutorial/tree/main/part_2>
 
-[move ordering]: https://www.chessprogramming.org/Move_Ordering
-[Negamax]: https://en.wikipedia.org/wiki/Negamax
 [Alpha-Beta pruning]: https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning
-[heuristic]: https://en.wikipedia.org/wiki/Heuristic_(computer_science)
-[magic numbers]: https://en.wikipedia.org/wiki/Magic_number_(programming)
-[list comprehensions]: https://docs.python.org/3.13/tutorial/datastructures.html#list-comprehensions
-[generator expressions]: https://docs.python.org/3.13/tutorial/classes.html#generator-expressions
-[Manhattan distance]: https://en.wikipedia.org/wiki/Taxicab_geometry
-[plies]: https://en.wikipedia.org/wiki/Ply_(game_theory)
 [FCD]: https://youtu.be/SHk5EBJpWOg
+[generator expressions]: https://docs.python.org/3.13/tutorial/classes.html#generator-expressions
 [graphs]: https://en.wikipedia.org/wiki/Graph
-[tree]: https://en.wikipedia.org/wiki/Tree_(abstract_data_type)
+[heuristic]: https://en.wikipedia.org/wiki/Heuristic_(computer_science)
+[list comprehensions]: https://docs.python.org/3.13/tutorial/datastructures.html#list-comprehensions
+[magic numbers]: https://en.wikipedia.org/wiki/Magic_number_(programming)
+[Manhattan distance]: https://en.wikipedia.org/wiki/Taxicab_geometry
 [Minimax]: https://en.wikipedia.org/wiki/Minimax
 [move ordering]: https://www.chessprogramming.org/Move_Ordering
+[move ordering]: https://www.chessprogramming.org/Move_Ordering
+[Negamax]: https://en.wikipedia.org/wiki/Negamax
+[plies]: https://en.wikipedia.org/wiki/Ply_(game_theory)
+[tree]: https://en.wikipedia.org/wiki/Tree_(abstract_data_type)
